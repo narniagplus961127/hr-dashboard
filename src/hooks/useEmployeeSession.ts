@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
+import { useLocation } from 'react-router';
 import { supabase } from '../supabase';
 import type { EmployeeProfile } from '../types/employee';
 
 export function useEmployeeSession() {
+  const { pathname } = useLocation();
   const [profile, setProfile] = useState<EmployeeProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -60,12 +62,26 @@ export function useEmployeeSession() {
       },
     );
 
+    async function revalidate() {
+      const { data } = await client.auth.getSession();
+      if (alive) await loadProfile(data.session);
+    }
+
+    function revalidateVisible() {
+      if (document.visibilityState === 'visible') void revalidate();
+    }
+
+    window.addEventListener('focus', revalidateVisible);
+    document.addEventListener('visibilitychange', revalidateVisible);
+
     return () => {
       alive = false;
       revision++;
       listener.subscription.unsubscribe();
+      window.removeEventListener('focus', revalidateVisible);
+      document.removeEventListener('visibilitychange', revalidateVisible);
     };
-  }, []);
+  }, [pathname]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -110,7 +126,13 @@ export function useEmployeeSession() {
       .returns<EmployeeProfile[]>()
       .maybeSingle();
 
-    if (!profileError && data)
+    if (profileError || !data) {
+      setProfile(null);
+      setError(
+        'Your employee profile is unavailable. Please contact your HR Administrator.',
+      );
+      await supabase.auth.signOut({ scope: 'local' });
+    } else
       setProfile((current) =>
         current?.user_id === data.user_id ? data : current,
       );

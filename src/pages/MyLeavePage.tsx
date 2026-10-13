@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { companyToday, displayCompanyDate } from '../calendar';
-import { getMyLeave, submitLeaveRequest } from '../leave';
+import { cancelLeaveRequest, getMyLeave, submitLeaveRequest } from '../leave';
+import LeaveCancellationForm from '../components/LeaveCancellationForm';
 import type {
   LeaveBalancesPageProps,
   LeaveHistory,
@@ -60,6 +61,23 @@ export default function MyLeavePage({ viewer }: LeaveBalancesPageProps) {
     } catch (failure) {
       setError(
         failure instanceof Error ? failure.message : 'Could not submit leave.',
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function cancel(id: string, reason: string) {
+    setSubmitting(true);
+    setError('');
+    setNotice('');
+    try {
+      await cancelLeaveRequest(id, reason);
+      setNotice('Leave request cancelled. Its days have been released.');
+      setRevision((value) => value + 1);
+    } catch (failure) {
+      setError(
+        failure instanceof Error ? failure.message : 'Could not cancel leave.',
       );
     } finally {
       setSubmitting(false);
@@ -175,6 +193,16 @@ export default function MyLeavePage({ viewer }: LeaveBalancesPageProps) {
                 </p>
                 {request.reason && (
                   <p className="leave-request-reason">{request.reason}</p>
+                )}
+                {(request.status === 'pending' ||
+                  (request.status === 'approved' &&
+                    viewer.role === 'hr_administrator')) && (
+                  <LeaveCancellationForm
+                    requestId={request.id}
+                    approved={request.status === 'approved'}
+                    submitting={submitting || loading}
+                    onCancel={cancel}
+                  />
                 )}
                 <h4>Leave history</h4>
                 <ul className="leave-history">

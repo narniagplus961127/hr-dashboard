@@ -2,6 +2,13 @@ import type { EmployeeProfile } from './employee';
 
 export type LeaveType = 'Annual' | 'Sick';
 
+export interface LeaveCancellationFormProps {
+  requestId: string;
+  approved?: boolean;
+  submitting: boolean;
+  onCancel: (id: string, reason: string) => Promise<void>;
+}
+
 export interface LeaveBalancesPageProps {
   viewer: EmployeeProfile;
   manage?: boolean;

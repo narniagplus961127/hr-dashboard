@@ -8,4 +8,3 @@ CREATE OR REPLACE FUNCTION private.company_today()
   AS $function$
       select (now() at time zone 'Asia/Kuala_Lumpur')::date;
     $function$;
-

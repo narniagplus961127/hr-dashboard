@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { decideLeave, getApprovals } from '../approvals';
 import { displayCompanyDate } from '../calendar';
 import ApprovalRequestCard from '../components/ApprovalRequestCard';
+import LeaveCancellationForm from '../components/LeaveCancellationForm';
+import { cancelLeaveRequest } from '../leave';
 import type { ApprovalRequest } from '../types/approvals';
 import type { LeaveHistory } from '../types/leave';
 
@@ -61,6 +63,25 @@ export default function ApprovalsPage() {
         failure instanceof Error
           ? failure.message
           : 'Could not save the decision.',
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function cancel(id: string, reason: string) {
+    setSubmitting(true);
+    setError('');
+    setNotice('');
+    try {
+      await cancelLeaveRequest(id, reason);
+      setNotice(
+        'Leave request cancelled. Its approved days have been released.',
+      );
+      setRevision((value) => value + 1);
+    } catch (failure) {
+      setError(
+        failure instanceof Error ? failure.message : 'Could not cancel leave.',
       );
     } finally {
       setSubmitting(false);
@@ -133,6 +154,14 @@ export default function ApprovalsPage() {
               submitting={submitting || loading}
               onDecision={decide}
             />
+            {request.can_cancel && (
+              <LeaveCancellationForm
+                requestId={request.id}
+                approved
+                submitting={submitting || loading}
+                onCancel={cancel}
+              />
+            )}
             <h3>Leave history</h3>
             <ul className="approval-history">
               {history

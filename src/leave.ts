@@ -6,6 +6,20 @@ import type {
   LeaveHistory,
 } from './types/leave';
 
+export async function cancelLeaveRequest(id: string, reason = '') {
+  if (!supabase) throw new Error('Backend is not configured.');
+  const { error } = await supabase.rpc('cancel_leave_request', {
+    p_request_id: id,
+    p_reason: reason,
+  });
+  if (error)
+    throw new Error(
+      error.code === '22023' || error.code === '42501'
+        ? error.message
+        : 'Could not cancel leave. Please reload and try again.',
+    );
+}
+
 export async function getMyLeave() {
   if (!supabase) throw new Error('Backend is not configured.');
   const [requests, history] = await Promise.all([

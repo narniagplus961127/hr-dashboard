@@ -81,5 +81,8 @@ The user confirmed the consolidated plan on 2026-10-13. The planning interview i
 
 - User-provided private GitHub repository: [narniagplus961127/hr-dashboard](https://github.com/narniagplus961127/hr-dashboard).
 - Intended destination for a later push. No push has been requested for the current planning step.
+- The user reported pushing code to this repository. Access was verified on 2026-10-13; the main branch currently contains the planning documents and no application code.
+- Preserve CRLF line endings and use Prettier for code formatting, following existing repository settings.
+- The user approved the 10-ticket implementation breakdown on 2026-10-13. The specification is published as GitHub issue #1 and the 10 tickets as issues #2-#11, with ready-for-agent labels and verified native blocking relationships. Local drafts include publication links; the ticket index records the mapping.
 
 Hosting providers can change their terms. The budget is a project constraint, not a guarantee about future provider pricing.

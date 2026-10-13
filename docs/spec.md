@@ -65,7 +65,8 @@ Provide a responsive light interface with teal accents, a desktop sidebar, and c
 
 ## Implementation Decisions
 
-- The workspace contains only the confirmed plan, glossary, and architecture decision. There are no existing application modules, test frameworks, or test boundaries to preserve. The local directory is not currently a Git checkout. Remote code could not be inspected because the GitHub connection lacks access to the supplied private repository.
+- The local workspace and the verified GitHub main branch contain planning documents only, with no application code or tests. Establish the application and testing boundaries during implementation; inspect repository instructions before making changes. The local directory is not currently a Git checkout.
+- Preserve CRLF line endings and format supported code using Prettier, following existing repository configuration. Do not replace established formatting settings when bringing in the remote code.
 - Use a single-company model with departments. Employee information and login identity are linked concepts, not interchangeable: HR edits employment records while privileged setup tooling maintains authentication accounts.
 - Build modules for session/access control, employee records and directory, leave requests and approvals, entitlement accounting, Shared calendar and Public holidays, overview summaries, and privileged demo setup.
 - Model Employees, departments, role assignments, Manager relationships, annual entitlements per Employee and leave type, dated Leave requests with lifecycle status, company holiday dates, and attributed Leave history.
@@ -108,8 +109,9 @@ Provide a responsive light interface with teal accents, a desktop sidebar, and c
 ## Further Notes
 
 - The consolidated plan was confirmed on 2026-10-13. Testing boundaries were subsequently confirmed during specification preparation.
+- The user approved the 10-ticket breakdown on 2026-10-13 and specified CRLF line endings and Prettier formatting. The approved tickets record their blocking edges and retain CRLF and Prettier requirements.
 - Intended repository and issue tracker: https://github.com/narniagplus961127/hr-dashboard (private). Publish this specification as an implementation issue with the `ready-for-agent` label when repository access is available. No code push is requested at this stage.
-- Publication is currently blocked: GitHub's connector returns a repository-not-found response and a search permission error. The GitHub CLI is not installed. This document is the complete local publication draft, not an already-created issue.
+- GitHub access was verified on 2026-10-13. This issue records the confirmed implementation specification.
 - Current official Supabase pricing confirms a $0 plan but does not explicitly establish its no-card signup requirement. Verify signup/project creation before depending on this hosted backend; if a card is required, revisit the provider instead of entering payment details.
 - Free hosting terms may change. The enduring requirement is RM0/no card; migrations or local operation are acceptable responses to incompatible terms. Supabase inactivity pauses are accepted.
 - Hosting facts were researched on 2026-10-13: [Cloudflare free offering](https://www.cloudflare.com/plans/), [Pages limits](https://developers.cloudflare.com/pages/platform/limits/), [Supabase pricing](https://supabase.com/pricing), [Supabase billing FAQ](https://supabase.com/docs/guides/platform/billing-faq), and [Supabase email limitations](https://supabase.com/docs/guides/auth/auth-smtp).

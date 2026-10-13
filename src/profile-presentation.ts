@@ -1,4 +1,4 @@
-import type { EmployeeProfile } from './supabase';
+import type { EmployeeProfile } from './types/employee';
 
 export function getRoleName(role: EmployeeProfile['role']) {
   return {

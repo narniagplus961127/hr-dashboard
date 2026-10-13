@@ -1,6 +1,6 @@
 # HR Dashboard
 
-A single-company HR learning app with fictional employees. Ticket 01 implements email/password sign-in, role-specific navigation, the signed-in Employee's own profile, and sign-out. Employee directory, leave, approvals, and calendar features belong to later tickets.
+A single-company HR learning app with fictional employees. Ticket 01 implements sign-in, own profiles, role navigation, and sign-out. Ticket 02 adds the Employee directory, private employment details, and HR management of employee records, Departments, and Manager assignments. Leave, approvals, calendar, and deactivation belong to later tickets.
 
 React, TypeScript, and Vite provide the frontend. Supabase provides authentication and PostgreSQL. Cloudflare Pages hosts the static build.
 
@@ -32,7 +32,7 @@ npm run format:check
 npm run build
 ```
 
-The preview uses port 5173. Tests start their own frontend on 5174 and use the local real backend; they never use the hosted project. Desktop and mobile browser workflows test login, role navigation, invalid credentials, and sign-out. Direct API checks test anonymous denial, profile isolation, blocked writes/role escalation, user-metadata forgery, and access-token denial after session revocation.
+The frontend uses port 5173. Tests start their own frontend on 5174 and use the local real backend; they never use the hosted project. Desktop and mobile browser workflows cover login, directory search and details, HR record creation/editing, Department maintenance, useful validation, and sign-out. Direct API checks verify private-field isolation, denied non-HR writes, trusted access assignments, atomic validation, and session revocation.
 
 The test suite uses the installed Google Chrome browser. It does not download another browser. If Chrome is unavailable, install Chrome or adjust the Playwright browser configuration for an available installation.
 
@@ -47,7 +47,7 @@ npm run supabase -- stop --project-id hr-dashboard-test
 
 Use the dedicated **HR Dashboard** Supabase project supplied by the owner. The project is on QW Org's Free plan and is in Tokyo; the demo company is in Kuala Lumpur. The owner confirmed project creation did not require a credit card. No other existing project is modified.
 
-1. Apply the tracked Supabase migrations to the dedicated project, using a trusted connection or Supabase's SQL editor. They create a read-only own-profile API with Row Level Security and explicit grants. The security follow-up removes public execution rights from Supabase's automatic-RLS helper when that helper exists.
+1. Apply the tracked Supabase migrations to the dedicated project, using a trusted connection or Supabase's SQL editor. They enforce directory/private-field separation and HR-only writes with Row Level Security and explicit grants. The security follow-up removes public execution rights from Supabase's automatic-RLS helper when that helper exists.
 2. In Authentication settings, keep email/password sign-in enabled and disable public user signup. Anonymous sign-ins are not used. Demo accounts are created through the admin API, with email confirmation supplied by the setup script; no invitation, reset email, or SMTP dependency is needed.
 3. Copy `.env.example` to `.env.local` and set the project URL and publishable key. Privileged keys must never use the `VITE_` prefix. The Vite configuration rejects modern secret keys and legacy privileged JWT keys in this field.
 4. For privileged account setup, supply `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, and a strong `DEMO_PASSWORD` of at least 12 characters through the terminal environment. Alternatively use `.env.admin.local` based on `.env.admin.example` only when local credential storage is authorized. This file is gitignored and never enters the frontend; remove it after setup if temporary storage was chosen.
@@ -57,7 +57,9 @@ npm run demo:seed
 npm run demo:reset-password -- maya@hr.example.test
 ```
 
-`demo:seed` creates missing accounts and provisions their profiles without resetting passwords on existing accounts. `demo:reset-password` changes a known demo account's password and revokes its sessions. Neither command prints passwords or server-side keys. These commands modify only the named fictional demo accounts in the project you configure.
+`demo:seed` creates missing accounts and provisions their employment records through a service-only database operation without resetting existing passwords. Re-running it restores the four demo records' configured names, contact details, Departments, start dates, and roles, and assigns Maya to Daniel. It preserves existing activation status. `demo:reset-password` changes a known demo account's password and revokes its sessions. Neither command prints passwords or server-side keys.
+
+HR-created records do not create login accounts. Their login identity stays unlinked until trusted provisioning links it; changing a work email in the HR form does not change the sign-in email. HR can edit employment information, but role assignment, login provisioning, and password changes remain privileged setup tasks. Employment status is visible to the owner and HR; the deactivation action is deferred to Ticket 09.
 
 | Employee     | Work email             | Workspace role   |
 | ------------ | ---------------------- | ---------------- |
@@ -84,6 +86,10 @@ Check current terms when deploying: [Cloudflare Pages limits](https://developers
 
 Use Prettier and CRLF line endings. `.gitattributes` sets text files to CRLF; `.prettierrc.json` configures supported source formatting. Package versions are pinned, and the npm lockfile is tracked.
 
-Profile role and employment data are writable only through trusted setup tooling in this ticket. RLS matches the caller's identity and verifies the current auth session in a private, restricted helper, so a signed-out access token cannot continue reading the profile. Editable user metadata never determines the workspace role.
+Directory-visible fields live in `employee_records`, with maintained Departments and Manager references. Private start dates, status, and access assignments live in the unexposed `private.employee_access` table. Security-invoker views expose directory fields to active signed-in users and full employment records only to the owner or HR. A validated HR operation saves public and private fields in one transaction; browser callers cannot modify login links, roles, or activation status. Session validation denies access after sign-out, and editable user metadata never determines the workspace role.
+
+React pages and components keep their CSS alongside them. Shared base styles live in `src/styles`, and interfaces/types live in `src/types`. Preserve readable blank lines between logical sections.
+
+Ticket 02 is implemented and verified locally. The hosted deployment remains Ticket 01 until the new migration and frontend build are deployed together. See [Ticket 02 verification](docs/ticket-02-verification.md).
 
 The [specification](https://github.com/narniagplus961127/hr-dashboard/issues/1) and [ticket 01](https://github.com/narniagplus961127/hr-dashboard/issues/2) define scope and acceptance criteria.

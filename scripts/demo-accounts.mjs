@@ -58,6 +58,8 @@ export async function seedDemoAccounts({ url, secretKey, password }) {
     users.push(...data.users);
     if (data.users.length < 100) break;
   }
+  const employeeIds = new Map();
+
   for (const employee of demoEmployees) {
     let user = users.find((candidate) => candidate.email === employee.email);
     if (!user) {
@@ -72,18 +74,34 @@ export async function seedDemoAccounts({ url, secretKey, password }) {
         );
       user = data.user;
     }
-    const { email, ...profile } = employee;
-    const { error } = await admin.from('employee_profiles').upsert({
-      user_id: user.id,
-      work_email: email,
-      ...profile,
-      is_active: true,
-    });
+    const { data: employeeId, error } = await admin.rpc(
+      'provision_demo_employee',
+      {
+        p_user_id: user.id,
+        p_full_name: employee.full_name,
+        p_work_email: employee.email,
+        p_job_title: employee.job_title,
+        p_department: employee.department,
+        p_start_date: employee.start_date,
+        p_role: employee.role,
+      },
+    );
     if (error)
       throw new Error(
-        `Could not provision ${email}. Apply the employee-profile migration first.`,
+        `Could not provision ${employee.email}. Apply the employee-directory migration first.`,
       );
+
+    employeeIds.set(employee.email, employeeId);
   }
+
+  const { error: managerError } = await admin
+    .from('employee_records')
+    .update({
+      manager_id: employeeIds.get('daniel@hr.example.test'),
+    })
+    .eq('employee_id', employeeIds.get('maya@hr.example.test'));
+
+  if (managerError) throw new Error('Could not assign the demo Manager.');
 }
 
 async function resetPassword({ url, secretKey, password, email }) {

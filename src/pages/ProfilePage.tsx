@@ -1,16 +1,10 @@
-import type { EmployeeProfile } from '../supabase';
+import type { ProfilePageProps } from '../types/components';
 import EmployeeProfileCard from '../components/EmployeeProfileCard';
 import WorkspaceAccessCard from '../components/WorkspaceAccessCard';
 
 import './ProfilePage.css';
 
-export default function ProfilePage({
-  profile,
-  error,
-}: {
-  profile: EmployeeProfile;
-  error: string;
-}) {
+export default function ProfilePage({ profile, error }: ProfilePageProps) {
   return (
     <main className="profile-page" id="profile">
       <div className="page-heading">

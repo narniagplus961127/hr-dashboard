@@ -1,13 +1,9 @@
-import type { EmployeeProfile } from '../supabase';
+import type { EmployeeProfileProps } from '../types/components';
 import { getRoleName } from '../profile-presentation';
 
 import './WorkspaceAccessCard.css';
 
-export default function WorkspaceAccessCard({
-  profile,
-}: {
-  profile: EmployeeProfile;
-}) {
+export default function WorkspaceAccessCard({ profile }: EmployeeProfileProps) {
   const roleName = getRoleName(profile.role);
   return (
     <section

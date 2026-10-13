@@ -1,6 +1,7 @@
+import type { BrandProps } from '../types/components';
 import './Brand.css';
 
-export default function Brand({ light = false }: { light?: boolean }) {
+export default function Brand({ light = false }: BrandProps) {
   const content = (
     <>
       <span className="brand-mark" aria-hidden="true">

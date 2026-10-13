@@ -1,14 +1,7 @@
-import type { FormEvent } from 'react';
+import type { LoginPageProps } from '../types/components';
 import Brand from '../components/Brand';
 
 import './LoginPage.css';
-
-interface LoginPageProps {
-  error: string;
-  connected: boolean;
-  submitting: boolean;
-  onSignIn: (event: FormEvent<HTMLFormElement>) => Promise<void>;
-}
 
 export default function LoginPage({
   error,

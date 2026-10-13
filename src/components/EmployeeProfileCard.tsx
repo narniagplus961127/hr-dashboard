@@ -1,13 +1,9 @@
-import type { EmployeeProfile } from '../supabase';
+import type { EmployeeProfileProps } from '../types/components';
 import { getRoleName, getInitials } from '../profile-presentation';
 
 import './EmployeeProfileCard.css';
 
-export default function EmployeeProfileCard({
-  profile,
-}: {
-  profile: EmployeeProfile;
-}) {
+export default function EmployeeProfileCard({ profile }: EmployeeProfileProps) {
   const roleName = getRoleName(profile.role);
   const initials = getInitials(profile.full_name);
 

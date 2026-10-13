@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../supabase';
-import type { EmployeeProfile } from '../supabase';
+import type { EmployeeProfile } from '../types/employee';
 
 export function useEmployeeSession() {
   const [profile, setProfile] = useState<EmployeeProfile | null>(null);
@@ -100,6 +100,22 @@ export function useEmployeeSession() {
       setError('We couldn’t complete sign-out. Please try again.');
   }
 
+  async function refreshProfile() {
+    if (!supabase || !profile) return;
+
+    const { data, error: profileError } = await supabase
+      .from('employee_profiles')
+      .select('*')
+      .eq('user_id', profile.user_id)
+      .returns<EmployeeProfile[]>()
+      .maybeSingle();
+
+    if (!profileError && data)
+      setProfile((current) =>
+        current?.user_id === data.user_id ? data : current,
+      );
+  }
+
   return {
     profile,
     loading,
@@ -108,5 +124,6 @@ export function useEmployeeSession() {
     connected: Boolean(supabase),
     signIn,
     signOut,
+    refreshProfile,
   };
 }

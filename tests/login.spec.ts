@@ -42,7 +42,7 @@ test('sign-out removes the profile and stays signed out after reloading', async 
   ).not.toBeVisible();
 });
 
-test('a Manager sees their own profile and Team access navigation', async ({
+test('a Manager sees their own profile and workspace access', async ({
   page,
 }) => {
   await page.goto('/');
@@ -57,8 +57,14 @@ test('a Manager sees their own profile and Team access navigation', async ({
   await expect(
     page
       .getByRole('navigation', { name: 'Workspace' })
-      .getByRole('link', { name: 'Team access', exact: true }),
+      .getByRole('link', { name: 'My profile', exact: true }),
   ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Your workspace access' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Team access', exact: true }),
+  ).toHaveCount(0);
   await expect(
     page.getByRole('link', { name: 'HR access', exact: true }),
   ).not.toBeVisible();
@@ -68,7 +74,7 @@ for (const employee of [
   { email: 'aisha@hr.example.test', name: 'Aisha Rahman' },
   { email: 'grace@hr.example.test', name: 'Grace Lim' },
 ]) {
-  test(`${employee.name} signs in as an HR Administrator with HR access navigation`, async ({
+  test(`${employee.name} signs in as an HR Administrator with workspace access`, async ({
     page,
   }) => {
     await page.goto('/');
@@ -83,8 +89,14 @@ for (const employee of [
     await expect(
       page
         .getByRole('navigation', { name: 'Workspace' })
-        .getByRole('link', { name: 'HR access', exact: true }),
+        .getByRole('link', { name: 'My profile', exact: true }),
     ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Your workspace access' }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: 'HR access', exact: true }),
+    ).toHaveCount(0);
     await expect(
       page.getByRole('link', { name: 'Team access', exact: true }),
     ).not.toBeVisible();

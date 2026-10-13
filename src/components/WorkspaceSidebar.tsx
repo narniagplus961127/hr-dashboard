@@ -1,14 +1,13 @@
 import type { WorkspaceSidebarProps } from '../types/components';
 import { getRoleName, getInitials } from '../profile-presentation';
 import Brand from './Brand';
-import { NavLink, Link } from 'react-router';
+import { NavLink } from 'react-router';
 
 import './WorkspaceSidebar.css';
 
 export default function WorkspaceSidebar({ profile }: WorkspaceSidebarProps) {
   const roleName = getRoleName(profile.role);
   const initials = getInitials(profile.full_name);
-  const accessLink = profile.role === 'manager' ? 'Team access' : 'HR access';
 
   return (
     <aside className="sidebar">
@@ -90,12 +89,6 @@ export default function WorkspaceSidebar({ profile }: WorkspaceSidebarProps) {
           >
             <span aria-hidden="true">◇</span>Public holidays
           </NavLink>
-        )}
-        {profile.role !== 'employee' && (
-          <Link className="nav-item" to="/profile#access">
-            <span aria-hidden="true">◇</span>
-            {accessLink}
-          </Link>
         )}
         {profile.role === 'hr_administrator' && (
           <NavLink

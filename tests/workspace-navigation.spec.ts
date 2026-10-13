@@ -16,7 +16,7 @@ test('HR can reach every workspace page with accurate breadcrumbs and compact mo
   ).toBeVisible();
 
   const nav = page.getByRole('navigation', { name: 'Workspace' });
-  await expect(nav.getByRole('link')).toHaveCount(11);
+  await expect(nav.getByRole('link')).toHaveCount(10);
   if (testInfo.project.name === 'mobile') {
     const bounds = await nav.boundingBox();
     expect(bounds?.height).toBeLessThan(70);
@@ -32,7 +32,7 @@ test('HR can reach every workspace page with accurate breadcrumbs and compact mo
     ['Public holidays', 'Public holidays'],
     ['Leave entitlements', 'Leave entitlements'],
     ['Departments', 'Departments'],
-    ['HR access', 'My profile'],
+    ['My profile', 'My profile'],
     ['Overview', 'Overview'],
   ]) {
     await nav.getByRole('link', { name: link, exact: true }).click();

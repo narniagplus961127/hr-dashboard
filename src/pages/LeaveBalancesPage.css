@@ -1,0 +1,72 @@
+.leave-balances-page {
+  padding: 38px 42px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.leave-balance-panel {
+  padding: 28px;
+  background: white;
+  border: 1px solid #e1e9e3;
+  border-radius: 14px;
+  margin-bottom: 24px;
+}
+
+.leave-balance-panel input,
+.leave-balance-panel select {
+  max-width: 440px;
+}
+
+.leave-balance-panel h2 {
+  font-size: 19px;
+  margin-bottom: 18px;
+}
+
+.leave-policy {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 16px 0;
+  color: #63716a;
+}
+
+.leave-balance-table-wrap {
+  overflow-x: auto;
+}
+
+.leave-balance-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+.leave-balance-table caption {
+  text-align: left;
+  font-weight: 600;
+  padding: 12px 0;
+}
+
+.leave-balance-table td,
+.leave-balance-table th {
+  text-align: left;
+  padding: 14px 12px;
+  border-bottom: 1px solid #edf0ec;
+}
+
+.leave-balance-table strong {
+  color: #087f6d;
+}
+
+@media (max-width: 1000px) {
+  .leave-balances-page {
+    padding: 30px 24px;
+  }
+}
+
+@media (max-width: 700px) {
+  .leave-balances-page {
+    padding: 26px 20px;
+  }
+  .leave-balance-panel {
+    padding: 20px;
+  }
+}

@@ -1,31 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { publicClient } from './helpers';
-import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
-
-// Trusted fixture provisioning only; all behavior is observed through the API.
-function fixture(sql: string) {
-  const project = readFileSync('supabase/config.toml', 'utf8').match(
-    /^project_id = "([^"]+)"/m,
-  )?.[1];
-  if (!project || !/^hr-dashboard(?:-[a-z]+)*-test$/.test(project))
-    throw new Error('Fixture requires an isolated HR test project.');
-  const result = spawnSync(
-    'docker',
-    [
-      'exec',
-      '-i',
-      `supabase_db_${project}`,
-      'psql',
-      '-U',
-      'postgres',
-      '-v',
-      'ON_ERROR_STOP=1',
-    ],
-    { input: sql, encoding: 'utf8' },
-  );
-  if (result.status !== 0) throw new Error(result.stderr);
-}
+import { publicClient, provisionFixture as fixture } from './helpers';
 
 test('owners receive separate Annual and Sick balances with demo defaults', async () => {
   const client = publicClient();
@@ -145,7 +119,7 @@ test('HR rejects invalid allowances and used plus reserved floors with year and 
   };
   expect((await hr.rpc('save_leave_entitlement', args)).error).toBeNull();
   fixture(
-    `insert into private.leave_allocations(request_id,employee_id,leave_year,leave_type,used_days,reserved_days) values ('${request}','${owner.employee_id}',2040,'Annual',4,0),('${reservation}','${owner.employee_id}',2040,'Annual',0,3);`,
+    `insert into private.leave_requests(id,employee_id,leave_type,start_date,end_date,charged_days,status) values ('${request}','${owner.employee_id}','Annual','2040-01-02','2040-01-05',4,'approved'),('${reservation}','${owner.employee_id}','Annual','2040-01-09','2040-01-11',3,'pending'); insert into private.leave_allocations(request_id,employee_id,leave_year,leave_type,used_days,reserved_days) values ('${request}','${owner.employee_id}',2040,'Annual',4,0),('${reservation}','${owner.employee_id}',2040,'Annual',0,3);`,
   );
 
   try {
@@ -214,7 +188,7 @@ test('HR rejects invalid allowances and used plus reserved floors with year and 
     ).toBe(true);
   } finally {
     fixture(
-      `delete from private.leave_allocations where request_id in ('${request}','${reservation}');`,
+      `delete from private.leave_requests where id in ('${request}','${reservation}');`,
     );
     await hr.rpc('save_leave_entitlement', args);
     await hr.auth.signOut({ scope: 'local' });

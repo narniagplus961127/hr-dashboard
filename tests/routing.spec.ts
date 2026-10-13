@@ -109,11 +109,13 @@ test('HR selects job seniority independently of access roles and sees reporting 
     await page
       .getByRole('link', { name: 'Employee directory', exact: true })
       .click();
-    const names = await page.locator('.directory-card h2').allTextContents();
-    expect(names.indexOf('Daniel Lee')).toBeLessThan(names.indexOf('Maya Tan'));
-    expect(names.indexOf('Aisha Rahman')).toBeLessThan(
-      names.indexOf('Daniel Lee'),
-    );
+    // Navigation completes before the asynchronous directory request. Wait for
+    // the ordered names, including their presence, instead of reading an empty list.
+    await expect(page.locator('.directory-card h2')).toContainText([
+      'Aisha Rahman',
+      'Daniel Lee',
+      'Maya Tan',
+    ]);
   } finally {
     const record = original.data;
     const restored = await client.rpc('save_employee', {

@@ -1,5 +1,6 @@
 import type { LoginPageProps } from '../types/components';
 import Brand from '../components/Brand';
+import DemoAccountsDialog from '../components/DemoAccountsDialog';
 
 import './LoginPage.css';
 
@@ -99,6 +100,8 @@ export default function LoginPage({
               <span aria-hidden="true">↗</span>
             </button>
           </form>
+
+          {connected && <DemoAccountsDialog />}
 
           <p className="sign-in-help">
             Need help signing in?

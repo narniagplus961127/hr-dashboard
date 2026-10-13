@@ -8,6 +8,7 @@ import DirectoryPage from './pages/DirectoryPage';
 import DepartmentsPage from './pages/DepartmentsPage';
 import ReportingPage from './pages/ReportingPage';
 import LeaveBalancesPage from './pages/LeaveBalancesPage';
+import MyLeavePage from './pages/MyLeavePage';
 import CalendarPage from './pages/CalendarPage';
 import HolidaysPage from './pages/HolidaysPage';
 
@@ -65,10 +66,7 @@ export default function App() {
       onSignOut={signOut}
     >
       <Routes>
-        <Route
-          path="/my-leave"
-          element={<LeaveBalancesPage viewer={profile} />}
-        />
+        <Route path="/my-leave" element={<MyLeavePage viewer={profile} />} />
         <Route
           path="/entitlements"
           element={

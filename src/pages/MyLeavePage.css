@@ -1,0 +1,87 @@
+.my-leave-content {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  padding: 0 36px 36px;
+}
+
+.my-leave-panel {
+  background: white;
+  border: 1px solid #dde9e5;
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.request-leave-form {
+  display: grid;
+  gap: 12px;
+  max-width: 560px;
+}
+
+.request-leave-form input,
+.request-leave-form select,
+.request-leave-form textarea {
+  font: inherit;
+  border: 1px solid #dde9e5;
+  border-radius: 10px;
+  padding: 12px;
+  min-width: 0;
+}
+
+.request-leave-form textarea {
+  min-height: 85px;
+  resize: vertical;
+}
+
+.leave-request-card {
+  border: 1px solid #dde9e5;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.leave-request-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.leave-request-heading h3 {
+  margin: 0;
+}
+
+.leave-status {
+  background: #e4f5ef;
+  color: #145b49;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.leave-request-reason,
+.leave-history li {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.leave-history {
+  padding-left: 20px;
+}
+
+.leave-history time {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+@media (max-width: 680px) {
+  .my-leave-content {
+    padding: 0 16px 24px;
+  }
+  .my-leave-panel {
+    padding: 18px;
+  }
+}

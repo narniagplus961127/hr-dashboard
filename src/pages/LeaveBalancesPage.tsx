@@ -12,6 +12,8 @@ import './LeaveBalancesPage.css';
 export default function LeaveBalancesPage({
   viewer,
   manage = false,
+  revision: externalRevision = 0,
+  embedded = false,
 }: LeaveBalancesPageProps) {
   const [year, setYear] = useState(
     new Intl.DateTimeFormat('en', {
@@ -60,7 +62,7 @@ export default function LeaveBalancesPage({
     return () => {
       alive = false;
     };
-  }, [year, manage, viewer.employee_id, revision]);
+  }, [year, manage, viewer.employee_id, revision, externalRevision]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -93,9 +95,10 @@ export default function LeaveBalancesPage({
       balances.map((balance) => [balance.employee_id, balance.full_name]),
     ).entries(),
   ];
+  const Container = embedded ? 'section' : 'main';
 
   return (
-    <main className="leave-balances-page">
+    <Container className="leave-balances-page">
       <header className="page-heading">
         <div>
           <p className="eyebrow">
@@ -223,6 +226,6 @@ export default function LeaveBalancesPage({
           </form>
         </section>
       )}
-    </main>
+    </Container>
   );
 }

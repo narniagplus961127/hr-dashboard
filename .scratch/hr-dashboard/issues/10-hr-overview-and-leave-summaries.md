@@ -17,5 +17,4 @@
 - [ ] Preserve CRLF line endings and use Prettier for supported source files; run the repository's formatting check when available.
 - [ ] Inspect the existing repository, its instructions, formatting configuration, and tests before implementation; reuse working code rather than assuming an empty application.
 
-
 **Published issue:** https://github.com/narniagplus961127/hr-dashboard/issues/11

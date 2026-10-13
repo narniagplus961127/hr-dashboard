@@ -3,6 +3,7 @@
   max-width: 1000px;
   margin: 0 auto;
 }
+
 .department-panel {
   padding: 28px;
   background: white;
@@ -10,27 +11,33 @@
   border-radius: 14px;
   margin-bottom: 24px;
 }
+
 .department-panel h2 {
   font-size: 19px;
   margin-bottom: 18px;
 }
+
 .department-form {
   max-width: 500px;
 }
+
 .department-actions {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-top: 10px;
 }
+
 .department-actions .primary-button {
   margin-top: 0;
 }
+
 .department-panel ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .department-panel li {
   display: flex;
   justify-content: space-between;
@@ -40,18 +47,22 @@
   font-size: 13px;
   overflow-wrap: anywhere;
 }
+
 .department-panel li + li {
   border-top: 1px solid #edf0ec;
 }
+
 @media (max-width: 1000px) {
   .departments-page {
     padding: 30px 24px;
   }
 }
+
 @media (max-width: 700px) {
   .departments-page {
     padding: 26px 20px;
   }
+
   .department-panel {
     padding: 20px;
   }

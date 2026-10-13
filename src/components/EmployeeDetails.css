@@ -16,6 +16,7 @@
 .employee-details-heading h2 {
   font-size: 24px;
 }
+
 .employee-details-heading p {
   color: var(--muted);
   margin-top: 8px;
@@ -28,16 +29,19 @@
   gap: 28px;
   margin-top: 30px;
 }
+
 .employee-details dt {
   color: var(--muted);
   font-size: 11px;
   margin-bottom: 8px;
 }
+
 .employee-details dd {
   margin: 0;
   font-size: 14px;
   overflow-wrap: anywhere;
 }
+
 .employee-details .error-message {
   margin-top: 20px;
 }
@@ -46,9 +50,11 @@
   .employee-details {
     padding: 20px;
   }
+
   .employee-details dl {
     grid-template-columns: 1fr;
   }
+
   .employee-details-heading {
     align-items: flex-start;
     flex-direction: column;

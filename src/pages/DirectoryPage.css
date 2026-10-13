@@ -3,6 +3,7 @@
   max-width: 1230px;
   margin: 0 auto;
 }
+
 .directory-toolbar {
   display: flex;
   align-items: center;
@@ -10,10 +11,12 @@
   margin-bottom: 24px;
   flex-wrap: wrap;
 }
+
 .directory-toolbar label {
   font-size: 12px;
   font-weight: 600;
 }
+
 .directory-toolbar input {
   flex: 1;
   min-width: 200px;
@@ -22,15 +25,18 @@
   padding: 12px 14px;
   font-size: 12px;
 }
+
 .directory-toolbar > span {
   color: var(--muted);
   font-size: 12px;
 }
+
 .directory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 18px;
 }
+
 .directory-card {
   display: flex;
   flex-direction: column;
@@ -42,16 +48,19 @@
   gap: 10px;
   min-width: 0;
 }
+
 .directory-card h2 {
   font-size: 17px;
   margin-top: 6px;
 }
+
 .directory-card p,
 .directory-card a {
   color: var(--muted);
   font-size: 12px;
   overflow-wrap: anywhere;
 }
+
 .directory-department {
   color: var(--teal);
   font-size: 11px;
@@ -59,17 +68,21 @@
   border-radius: 5px;
   padding: 6px 9px;
 }
+
 .directory-card .directory-manager {
   margin: 6px 0 12px;
 }
+
 .directory-card button {
   width: 100%;
   text-align: left;
   margin-top: auto;
 }
+
 .directory-card button span {
   float: right;
 }
+
 .directory-empty {
   padding: 40px 24px;
   background: white;
@@ -84,14 +97,17 @@
     padding: 30px 24px;
   }
 }
+
 @media (max-width: 700px) {
   .directory-page {
     padding: 26px 20px;
   }
+
   .directory-toolbar {
     align-items: stretch;
     flex-direction: column;
   }
+
   .directory-toolbar input {
     width: 100%;
   }

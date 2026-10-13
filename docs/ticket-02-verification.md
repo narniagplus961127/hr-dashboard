@@ -17,7 +17,17 @@
 - Direct API checks cover anonymous/revoked sessions, Employee/Manager denials, private schema exclusion, privileged provisioning denial, atomic validation, immutable roles/status, and records without login accounts.
 - Full suite: 40 tests passed across desktop/mobile workflows and API checks.
 - TypeScript typecheck, production build, and Prettier check passed.
-- Final Standards and Spec review results are recorded below after completion.
+- Visual checks confirmed the desktop directory and mobile HR form, including no horizontal overflow at 390px. Screenshots are local, ignored files in `test-results`.
+
+## Standards
+
+No actionable findings in `a7ef187...a878103`. Component/page styles, shared styles, and centralized types follow the requested boundaries. The review found no substantive documented-standard violations or baseline code smells.
+
+## Spec
+
+No actionable findings in `a7ef187...a878103`. Directory visibility, owner/HR private-field restrictions, HR record and Department management, Manager assignments, and separate privileged account provisioning match Ticket 02. Deactivation remains deferred to Ticket 09.
+
+Review totals: Standards 0 findings; Spec 0 findings.
 
 ## Deployment
 

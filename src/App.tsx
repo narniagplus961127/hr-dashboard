@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import DirectoryPage from './pages/DirectoryPage';
 import DepartmentsPage from './pages/DepartmentsPage';
 import ReportingPage from './pages/ReportingPage';
+import LeaveBalancesPage from './pages/LeaveBalancesPage';
 import CalendarPage from './pages/CalendarPage';
 import HolidaysPage from './pages/HolidaysPage';
 
@@ -64,6 +65,20 @@ export default function App() {
       onSignOut={signOut}
     >
       <Routes>
+        <Route
+          path="/my-leave"
+          element={<LeaveBalancesPage viewer={profile} />}
+        />
+        <Route
+          path="/entitlements"
+          element={
+            profile.role === 'hr_administrator' ? (
+              <LeaveBalancesPage viewer={profile} manage />
+            ) : (
+              <Navigate to="/my-leave" replace />
+            )
+          }
+        />
         <Route path="/reporting" element={<ReportingPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
         <Route

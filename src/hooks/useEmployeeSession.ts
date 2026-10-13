@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
+import { useLocation } from 'react-router';
 import { supabase } from '../supabase';
 import type { EmployeeProfile } from '../types/employee';
 
 export function useEmployeeSession() {
+  const { pathname } = useLocation();
   const [profile, setProfile] = useState<EmployeeProfile | null>(null);
+  const currentProfile = useRef<EmployeeProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -22,14 +25,19 @@ export function useEmployeeSession() {
 
     async function loadProfile(session: Session | null) {
       const current = ++revision;
-      setProfile(null);
 
       if (!session) {
+        currentProfile.current = null;
+        setProfile(null);
         setLoading(false);
         return;
       }
 
-      setLoading(true);
+      if (currentProfile.current?.user_id !== session.user.id) {
+        currentProfile.current = null;
+        setProfile(null);
+        setLoading(true);
+      }
       const { data, error: profileError } = await client
         .from('employee_profiles')
         .select('*')
@@ -40,11 +48,14 @@ export function useEmployeeSession() {
       if (!alive || current !== revision) return;
 
       if (profileError || !data) {
+        currentProfile.current = null;
+        setProfile(null);
         setError(
           'Your employee profile is unavailable. Please contact your HR Administrator.',
         );
         await client.auth.signOut({ scope: 'local' });
       } else {
+        currentProfile.current = data;
         setProfile(data);
         setError('');
       }
@@ -60,12 +71,26 @@ export function useEmployeeSession() {
       },
     );
 
+    async function revalidate() {
+      const { data } = await client.auth.getSession();
+      if (alive) await loadProfile(data.session);
+    }
+
+    function revalidateVisible() {
+      if (document.visibilityState === 'visible') void revalidate();
+    }
+
+    window.addEventListener('focus', revalidateVisible);
+    document.addEventListener('visibilitychange', revalidateVisible);
+
     return () => {
       alive = false;
       revision++;
       listener.subscription.unsubscribe();
+      window.removeEventListener('focus', revalidateVisible);
+      document.removeEventListener('visibilitychange', revalidateVisible);
     };
-  }, []);
+  }, [pathname]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -110,10 +135,21 @@ export function useEmployeeSession() {
       .returns<EmployeeProfile[]>()
       .maybeSingle();
 
-    if (!profileError && data)
+    if (currentProfile.current?.user_id !== profile.user_id) return;
+
+    if (profileError || !data) {
+      currentProfile.current = null;
+      setProfile(null);
+      setError(
+        'Your employee profile is unavailable. Please contact your HR Administrator.',
+      );
+      await supabase.auth.signOut({ scope: 'local' });
+    } else {
+      currentProfile.current = data;
       setProfile((current) =>
         current?.user_id === data.user_id ? data : current,
       );
+    }
   }
 
   return {

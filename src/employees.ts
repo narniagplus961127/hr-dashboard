@@ -7,6 +7,20 @@ import type {
 import { supabase } from './supabase';
 import { compareEmployees } from './job-levels';
 
+export async function deactivateEmployee(employeeId: string) {
+  if (!supabase) throw new Error('Your workspace is not connected.');
+
+  const { error } = await supabase.rpc('deactivate_employee', {
+    p_employee_id: employeeId,
+  });
+  if (error)
+    throw new Error(
+      error.code === '22023' || error.code === '42501'
+        ? error.message
+        : 'Could not deactivate the Employee. Please try again.',
+    );
+}
+
 export async function getDepartments() {
   if (!supabase) throw new Error('Your workspace is not connected.');
 

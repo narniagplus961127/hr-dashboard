@@ -1,0 +1,17 @@
+.leave-history {
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.leave-history li {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.leave-history time {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+}

@@ -1,4 +1,30 @@
 import { createClient } from '@supabase/supabase-js';
+import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+
+// Trusted provisioning/cleanup only. Behavioral assertions use public APIs.
+export function provisionFixture(sql: string) {
+  const project = readFileSync('supabase/config.toml', 'utf8').match(
+    /^project_id = "([^"]+)"/m,
+  )?.[1];
+  if (!project || !/^hr-dashboard(?:-[a-z]+)*-test$/.test(project))
+    throw new Error('Fixture requires an isolated HR test project.');
+  const result = spawnSync(
+    'docker',
+    [
+      'exec',
+      '-i',
+      `supabase_db_${project}`,
+      'psql',
+      '-U',
+      'postgres',
+      '-v',
+      'ON_ERROR_STOP=1',
+    ],
+    { input: sql, encoding: 'utf8' },
+  );
+  if (result.status !== 0) throw new Error(result.stderr);
+}
 
 export function publicClient(token?: string) {
   const url = process.env.TEST_SUPABASE_URL;

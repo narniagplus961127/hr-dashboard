@@ -1,10 +1,10 @@
 # HR Dashboard
 
-A single-company HR learning app with fictional employees. Ticket 01 implements sign-in, own profiles, role navigation, and sign-out. Ticket 02 adds the Employee directory, private employment details, and HR management of employee records, Departments, and Manager assignments. Leave, approvals, calendar, and deactivation belong to later tickets.
+A single-company HR learning app with fictional employees. The full local specification includes sign-in and profiles, Employee and Department management, reporting structure, Public holidays, leave entitlements, requests, approvals, cancellation, a shared absence calendar, employee deactivation, and an overview.
 
 React, TypeScript, and Vite provide the frontend. Supabase provides authentication and PostgreSQL. Cloudflare Pages hosts the static build.
 
-React Router manages `/login`, `/profile`, `/directory`, `/directory/:employeeId`, `/departments`, and `/reporting`, including direct links and browser history. Protected routes require a session, and Department management also requires HR access. Cloudflare Pages serves the SPA entry point for these paths when the build has no top-level `404.html`; retain that default when deploying. See [Pages SPA routing](https://developers.cloudflare.com/pages/configuration/serving-pages/#single-page-application-spa-rendering).
+React Router manages `/login`, `/profile`, `/overview`, `/directory`, `/directory/:employeeId`, `/departments`, `/reporting`, `/calendar`, `/holidays`, `/my-leave`, `/approvals`, and `/entitlements`, including direct links and browser history. All workspace routes require an active session. Department, holiday, and entitlement management require HR; approvals require Manager or HR access. The HR access link remains the profile access section. Cloudflare Pages serves the SPA entry point for these paths when the build has no top-level `404.html`; retain that default when deploying. See [Pages SPA routing](https://developers.cloudflare.com/pages/configuration/serving-pages/#single-page-application-spa-rendering).
 
 Job levels use the owner-confirmed order **Director → Head → Manager → Lead → Senior → Junior**. HR chooses a level explicitly for new records. Directory ordering follows level, then name, while the reporting view follows actual Manager assignments. Job titles and levels are independent employment fields; levels never grant workspace permissions. Existing Lead/Senior fictional test records are backfilled to match their titles, and new test fixtures select matching levels explicitly.
 
@@ -36,7 +36,7 @@ npm run format:check
 npm run build
 ```
 
-The frontend uses port 5173. Tests start their own frontend on 5174 and use the local real backend; they never use the hosted project. Desktop and mobile browser workflows cover login, directory search and details, HR record creation/editing, Department maintenance, useful validation, and sign-out. Direct API checks verify private-field isolation, denied non-HR writes, trusted access assignments, atomic validation, and session revocation.
+The frontend uses port 5173. Tests start their own frontend on 5174 and use the local real backend; they never use the hosted project. `HR_TEST_FRONTEND_PORT` can select a different test frontend port for an isolated worktree. Desktop and mobile workflows cover the complete employee request → Manager approval → balance/calendar update → HR cancellation flow, alongside login, directory, Departments, holidays, entitlements, reporting, deactivation, and overview. Public API checks cover permissions, private-field isolation, revoked sessions, atomic allocation transitions, competing decisions/submissions, reporting changes, and deterministic Kuala Lumpur midnight boundaries. Trusted fixture setup controls only the isolated company-date helper and restores it afterward; authentication uses real time.
 
 The test suite uses the installed Google Chrome browser. It does not download another browser. If Chrome is unavailable, install Chrome or adjust the Playwright browser configuration for an available installation.
 
@@ -46,6 +46,20 @@ To apply new local migrations or stop only this project's containers without del
 npm run supabase -- migration up --local
 npm run supabase -- stop --project-id hr-dashboard-test
 ```
+
+## Leave and employee workflows
+
+Annual and Sick leave default to 14 days per Employee and calendar year. HR edits allowances through **Leave entitlements**; the allowance cannot fall below already used plus reserved days. **My leave** shows own balances, requests, and attributed history. Full working days exclude weekends and configured company holidays. Requests must start today or later in Kuala Lumpur, stay within one calendar year, avoid pending/approved overlaps, and fit the available allowance.
+
+Pending leave reserves days. A Manager decides their current direct-report Employees' requests; HR handles Employees without a Manager, Managers' requests, and other HR Administrators' requests. Nobody approves or rejects their own request. Approval moves reserved days to used; rejection requires a reason and releases the reservation. Employees cancel their own pending requests, and HR cancels approved requests. Repeated or competing transitions cannot release or charge days twice. Edit a request by cancelling it and submitting another.
+
+**Shared calendar** shows Public holidays and approved absences as **Away**, without exposing leave types or private reasons. Cancellation removes the absence. **Overview** shows headcount and request summaries scoped to the Employee, Manager's direct reports, or HR's company access. Reassigning an Employee changes responsibility for pending requests immediately; the previous Manager loses decision access.
+
+## Sample Kuala Lumpur holiday configuration
+
+Once the holiday migration is installed, sign in as an HR Administrator and open **Public holidays** (`/holidays`). For a fictional learning example, enter the name **Demo Kuala Lumpur company holiday** and the date **2027-01-15**, then choose **Add holiday**. Open **Shared calendar** (`/calendar`) and select **January 2027** to verify that the entry appears on the 15th. You can edit or delete the entry through Public holidays.
+
+This example is an invented company non-working day, not an official Malaysian public-holiday calendar. Dates belong to the company's `Asia/Kuala_Lumpur` calendar, remain date-only values, and do not repeat automatically. Maintain the desired dates manually before submitting demo leave requests. The example is documented rather than inserted automatically, so setup does not change an existing company's holiday data.
 
 ## Hosted setup
 
@@ -63,7 +77,7 @@ npm run demo:reset-password -- maya@hr.example.test
 
 `demo:seed` creates missing accounts and provisions their employment records through a service-only database operation without resetting existing passwords. Re-running it restores the four demo records' configured names, contact details, Departments, start dates, and roles, and assigns Maya to Daniel. It preserves existing activation status. `demo:reset-password` changes a known demo account's password and revokes its sessions. Neither command prints passwords or server-side keys.
 
-HR-created records do not create login accounts. Their login identity stays unlinked until trusted provisioning links it; changing a work email in the HR form does not change the sign-in email. HR can edit employment information, but role assignment, login provisioning, and password changes remain privileged setup tasks. Employment status is visible to the owner and HR; the deactivation action is deferred to Ticket 09.
+HR-created records do not create login accounts. Their login identity stays unlinked until trusted provisioning links it; changing a work email in the HR form does not change the sign-in email. HR can edit employment information, but role assignment, login provisioning, and password changes remain privileged setup tasks. Employment status is visible to the owner and HR. HR can deactivate an Employee from their directory details. This denies existing-session access, cancels pending requests and approved leave starting today or later in Kuala Lumpur, and releases those allocations once. Approved leave that already started remains unchanged, including its remaining days, with history retained. Reactivation and access-role assignment remain trusted provisioning tasks.
 
 | Employee     | Work email             | Workspace role   |
 | ------------ | ---------------------- | ---------------- |
@@ -90,10 +104,10 @@ Check current terms when deploying: [Cloudflare Pages limits](https://developers
 
 Use Prettier and CRLF line endings. `.gitattributes` sets text files to CRLF; `.prettierrc.json` configures supported source formatting. Package versions are pinned, and the npm lockfile is tracked.
 
-Directory-visible fields live in `employee_records`, with maintained Departments and Manager references. Private start dates, status, and access assignments live in the unexposed `private.employee_access` table. Security-invoker views expose directory fields to active signed-in users and full employment records only to the owner or HR. A validated HR operation saves public and private fields in one transaction; browser callers cannot modify login links, roles, or activation status. Session validation denies access after sign-out, and editable user metadata never determines the workspace role.
+Directory-visible fields live in `employee_records`, with maintained Departments and Manager references. Private start dates, status, and access assignments live in the unexposed `private.employee_access` table. Security-invoker views expose directory fields to active signed-in users and full employment records only to the owner or HR. A validated HR operation saves public and private fields in one transaction; browser callers cannot directly modify login links, roles, or activation status. The dedicated HR-only deactivation operation validates the session and handles leave allocations atomically. Session validation denies access after sign-out, and editable user metadata never determines the workspace role.
 
 React pages and components keep their CSS alongside them. Shared base styles live in `src/styles`, and interfaces/types live in `src/types`. Preserve readable blank lines between logical sections.
 
-Ticket 02 is implemented and verified locally. The hosted deployment remains Ticket 01 until the new migration and frontend build are deployed together. See [Ticket 02 verification](docs/ticket-02-verification.md).
+The full specification is implemented locally on `codex/hr-dashboard-spec`. The hosted deployment remains Ticket 01 until the owner deploys all new migrations and the matching frontend build together. This implementation does not push Git commits or update hosted services. Earlier baseline evidence is retained in [Ticket 02 verification](docs/ticket-02-verification.md); full integration evidence is recorded in the specification verification documents.
 
 The [specification](https://github.com/narniagplus961127/hr-dashboard/issues/1) and [ticket 01](https://github.com/narniagplus961127/hr-dashboard/issues/2) define scope and acceptance criteria.

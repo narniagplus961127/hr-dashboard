@@ -1,0 +1,20 @@
+.leave-cancellation-form {
+  display: grid;
+  gap: 12px;
+  max-width: 500px;
+  margin: 20px 0;
+}
+
+.leave-cancellation-form input {
+  min-width: 0;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #dde9e5;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.leave-cancellation-form label,
+.leave-cancellation-form p {
+  margin: 0;
+}

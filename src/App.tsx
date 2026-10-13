@@ -7,6 +7,12 @@ import ProfilePage from './pages/ProfilePage';
 import DirectoryPage from './pages/DirectoryPage';
 import DepartmentsPage from './pages/DepartmentsPage';
 import ReportingPage from './pages/ReportingPage';
+import LeaveBalancesPage from './pages/LeaveBalancesPage';
+import MyLeavePage from './pages/MyLeavePage';
+import ApprovalsPage from './pages/ApprovalsPage';
+import CalendarPage from './pages/CalendarPage';
+import HolidaysPage from './pages/HolidaysPage';
+import OverviewPage from './pages/OverviewPage';
 
 export default function App() {
   const location = useLocation();
@@ -62,7 +68,40 @@ export default function App() {
       onSignOut={signOut}
     >
       <Routes>
+        <Route path="/overview" element={<OverviewPage />} />
+        <Route
+          path="/approvals"
+          element={
+            profile.role !== 'employee' ? (
+              <ApprovalsPage />
+            ) : (
+              <Navigate to="/my-leave" replace />
+            )
+          }
+        />
+        <Route path="/my-leave" element={<MyLeavePage viewer={profile} />} />
+        <Route
+          path="/entitlements"
+          element={
+            profile.role === 'hr_administrator' ? (
+              <LeaveBalancesPage viewer={profile} manage />
+            ) : (
+              <Navigate to="/my-leave" replace />
+            )
+          }
+        />
         <Route path="/reporting" element={<ReportingPage />} />
+        <Route path="/calendar" element={<CalendarPage />} />
+        <Route
+          path="/holidays"
+          element={
+            profile.role === 'hr_administrator' ? (
+              <HolidaysPage />
+            ) : (
+              <Navigate to="/calendar" replace />
+            )
+          }
+        />
         <Route
           path="/profile"
           element={<ProfilePage profile={profile} error={error} />}

@@ -47,6 +47,12 @@ npm run supabase -- migration up --local
 npm run supabase -- stop --project-id hr-dashboard-test
 ```
 
+## Sample Kuala Lumpur holiday configuration
+
+Once the holiday migration is installed, sign in as an HR Administrator and open **Public holidays** (`/holidays`). For a fictional learning example, enter the name **Demo Kuala Lumpur company holiday** and the date **2027-01-15**, then choose **Add holiday**. Open **Shared calendar** (`/calendar`) and select **January 2027** to verify that the entry appears on the 15th. You can edit or delete the entry through Public holidays.
+
+This example is an invented company non-working day, not an official Malaysian public-holiday calendar. Dates belong to the company's `Asia/Kuala_Lumpur` calendar, remain date-only values, and do not repeat automatically. Maintain the desired dates manually before submitting demo leave requests. The example is documented rather than inserted automatically, so setup does not change an existing company's holiday data.
+
 ## Hosted setup
 
 Use the dedicated **HR Dashboard** Supabase project supplied by the owner. The project is on QW Org's Free plan and is in Tokyo; the demo company is in Kuala Lumpur. The owner confirmed project creation did not require a credit card. No other existing project is modified.

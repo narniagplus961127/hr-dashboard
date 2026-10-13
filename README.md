@@ -42,9 +42,9 @@ npm test
 
 Run selected workflows with `npm test -- tests/entitlements.spec.ts`, or use `npm run test:ui`. Direct Playwright and `test:setup` invocations are rejected without the runner's ownership context. If a process is forcibly terminated, inspect its retained runtime and Docker project before removing a stale `.test-runtime/runner.lock`; do not delete development volumes.
 
-Tests use installed Google Chrome locally. CI sets `HR_TEST_BROWSER=chromium` and installs Playwright's matching Chromium. Desktop and mobile workflows cover employee requests, Manager approval, balance/calendar updates, HR cancellation, directory, Departments, holidays, entitlements, reporting, deactivation, and overview. Direct API checks verify permissions and competing state transitions against the disposable real database.
+Tests use installed Google Chrome locally. To use Playwright's bundled Chromium instead, install it and set `HR_TEST_BROWSER=chromium`. Desktop and mobile workflows cover employee requests, Manager approval, balance/calendar updates, HR cancellation, directory, Departments, holidays, entitlements, reporting, deactivation, and overview. Direct API checks verify permissions and competing state transitions against the disposable real database.
 
-Commits format staged files with Prettier and run type checking plus fast test-runner safety checks. GitHub Actions runs formatting, type checking, a production build, and the complete real-backend browser suite for pull requests and pushes to main. It uses no hosted credentials. See [repository checks](.github/workflows/checks.yml).
+Commits format staged files with Prettier and run type checking plus fast test-runner safety checks. The owner removed the GitHub Actions workflow for this demo repository. Before merging or deploying, run `npm run check` and `npm test` locally; GitHub does not automatically run them.
 
 To apply local migrations or stop the development containers while retaining data:
 

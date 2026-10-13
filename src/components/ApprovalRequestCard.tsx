@@ -2,6 +2,8 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { ApprovalRequestCardProps } from '../types/approvals';
 
+import './ApprovalRequestCard.css';
+
 export default function ApprovalRequestCard({
   request,
   submitting,

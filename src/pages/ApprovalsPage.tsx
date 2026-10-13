@@ -3,6 +3,7 @@ import { decideLeave, getApprovals } from '../approvals';
 import { displayCompanyDate } from '../calendar';
 import ApprovalRequestCard from '../components/ApprovalRequestCard';
 import LeaveCancellationForm from '../components/LeaveCancellationForm';
+import LeaveHistoryList from '../components/LeaveHistoryList';
 import { cancelLeaveRequest } from '../leave';
 import type { ApprovalRequest } from '../types/approvals';
 import type { LeaveHistory } from '../types/leave';
@@ -163,24 +164,7 @@ export default function ApprovalsPage() {
               />
             )}
             <h3>Leave history</h3>
-            <ul className="approval-history">
-              {history
-                .filter((entry) => entry.request_id === request.id)
-                .map((entry) => (
-                  <li key={entry.id}>
-                    {entry.action[0].toUpperCase() + entry.action.slice(1)} by{' '}
-                    {entry.actor_name}
-                    <time dateTime={entry.created_at}>
-                      {new Intl.DateTimeFormat('en-MY', {
-                        timeZone: 'Asia/Kuala_Lumpur',
-                        dateStyle: 'medium',
-                        timeStyle: 'short',
-                      }).format(new Date(entry.created_at))}
-                    </time>
-                    {entry.reason && <p>{entry.reason}</p>}
-                  </li>
-                ))}
-            </ul>
+            <LeaveHistoryList history={history} requestId={request.id} />
           </article>
         ))
       )}

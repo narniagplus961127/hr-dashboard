@@ -3,6 +3,7 @@ import type { FormEvent } from 'react';
 import { companyToday, displayCompanyDate } from '../calendar';
 import { cancelLeaveRequest, getMyLeave, submitLeaveRequest } from '../leave';
 import LeaveCancellationForm from '../components/LeaveCancellationForm';
+import LeaveHistoryList from '../components/LeaveHistoryList';
 import type {
   LeaveBalancesPageProps,
   LeaveHistory,
@@ -205,24 +206,7 @@ export default function MyLeavePage({ viewer }: LeaveBalancesPageProps) {
                   />
                 )}
                 <h4>Leave history</h4>
-                <ul className="leave-history">
-                  {history
-                    .filter((entry) => entry.request_id === request.id)
-                    .map((entry) => (
-                      <li key={entry.id}>
-                        {entry.action[0].toUpperCase() + entry.action.slice(1)}{' '}
-                        by {entry.actor_name}
-                        <time dateTime={entry.created_at}>
-                          {new Intl.DateTimeFormat('en-MY', {
-                            timeZone: 'Asia/Kuala_Lumpur',
-                            dateStyle: 'medium',
-                            timeStyle: 'short',
-                          }).format(new Date(entry.created_at))}
-                        </time>
-                        {entry.reason && <p>{entry.reason}</p>}
-                      </li>
-                    ))}
-                </ul>
+                <LeaveHistoryList history={history} requestId={request.id} />
               </article>
             ))
           )}

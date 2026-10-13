@@ -37,6 +37,8 @@ Existing fictional Lead/Senior test records were backfilled to match their title
 
 Follow-up verification: 46 desktop/mobile browser and API tests passed; typecheck, production build, and Prettier passed. The local security advisor found no issues. A fresh shadow database applied all migrations for schema comparison; the generated follow-up migration records the normalized private function definitions. Mobile reporting showed no horizontal overflow at 390px.
 
+Final cumulative review of `a7ef187...5168c24`: Standards 0 actionable findings; Spec 0 actionable findings. The reported `Lina 1a5fef71` record was visually verified with job title Lead Designer and job level Lead. Screenshot: local, ignored `test-results/corrected-job-level.png`.
+
 ## Deployment
 
 The migration and frontend are local for review. Hosted Supabase and Cloudflare Pages were not changed for Ticket 02. Apply the migration before deploying the frontend. Git push and GitHub issue closure are left to the owner.

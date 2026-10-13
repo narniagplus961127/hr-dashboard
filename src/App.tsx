@@ -12,6 +12,7 @@ import MyLeavePage from './pages/MyLeavePage';
 import ApprovalsPage from './pages/ApprovalsPage';
 import CalendarPage from './pages/CalendarPage';
 import HolidaysPage from './pages/HolidaysPage';
+import OverviewPage from './pages/OverviewPage';
 
 export default function App() {
   const location = useLocation();
@@ -67,6 +68,7 @@ export default function App() {
       onSignOut={signOut}
     >
       <Routes>
+        <Route path="/overview" element={<OverviewPage />} />
         <Route
           path="/approvals"
           element={

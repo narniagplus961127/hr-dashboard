@@ -4,7 +4,7 @@ Integration branch: `codex/hr-dashboard-spec`.
 
 Starting point and user-confirmed final review base: `a77e18b`.
 
-Tickets 01 and 02 are complete and closed. Remaining GitHub issues are #4–#11, with their approved blocking graph in `docs/tickets.md`. The full specification is issue #1.
+Tickets 01–10 are implemented and verified. The approved blocking graph is in `docs/tickets.md`; the full specification is issue #1. Final verification and interruption recovery are recorded in `docs/spec-verification.md`.
 
 Keep the existing browser-to-real-isolated-backend and direct API testing boundaries. Preserve CRLF, Prettier, readable spacing, component CSS placement, and `src/types`. Preserve React Router and the confirmed job-level order. Keep HR access linked to the profile access section as the owner requested; add new functional menu items for new pages.
 

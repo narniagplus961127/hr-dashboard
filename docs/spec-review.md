@@ -30,4 +30,10 @@ The trusted isolated fixture temporarily replaces only that helper's implementat
 
 Supabase documentation checked: [database functions](https://supabase.com/docs/guides/database/functions) and [changelog](https://supabase.com/changelog). Current function guidance favors security invoker, an explicit search path for privileged functions, and explicit execution privileges; the internal date helper follows it. The relevant PostgreSQL and Data API changelog entries do not change these date expressions or the repository's existing explicit grants.
 
-Final integration-wide suite and independent re-review results are appended by the integration agent after merging.
+## Final integration verification
+
+The complete integration at `e2fcd2c` passed 120 tests: 60 desktop and 60 mobile, against a fresh disposable real backend with all 15 migrations applied. Typecheck, production build, Prettier, whitespace, and tracked text CRLF checks passed. Supabase security advisors reported no issues.
+
+Independent re-review against the user-approved base `a77e18b` reported **0 Standards findings** and **0 Spec findings**. Both original Standards findings and all four original Spec findings are resolved; the worst remaining severity on each axis is none.
+
+The verified implementation is on `codex/hr-dashboard-spec`. Git push and hosted deployment remain owner actions; the hosted deployment remains Ticket 01.

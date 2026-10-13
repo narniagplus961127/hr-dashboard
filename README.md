@@ -4,6 +4,10 @@ A single-company HR learning app with fictional employees. Ticket 01 implements 
 
 React, TypeScript, and Vite provide the frontend. Supabase provides authentication and PostgreSQL. Cloudflare Pages hosts the static build.
 
+React Router manages `/login`, `/profile`, `/directory`, `/directory/:employeeId`, `/departments`, and `/reporting`, including direct links and browser history. Protected routes require a session, and Department management also requires HR access. Cloudflare Pages serves the SPA entry point for these paths when the build has no top-level `404.html`; retain that default when deploying. See [Pages SPA routing](https://developers.cloudflare.com/pages/configuration/serving-pages/#single-page-application-spa-rendering).
+
+Job levels use the owner-confirmed order **Director → Head → Manager → Lead → Senior → Junior**. HR chooses a level explicitly for new records. Directory ordering follows level, then name, while the reporting view follows actual Manager assignments. Job titles and levels are independent employment fields; levels never grant workspace permissions. Existing Lead/Senior fictional test records are backfilled to match their titles, and new test fixtures select matching levels explicitly.
+
 Ticket 01 is deployed at [HR Dashboard](https://hr-dashboard-demo.pages.dev). All four accounts listed below can sign in; the owner-approved local `.env.demo.local` contains their shared hosted demo password and remains gitignored. The temporary setup-key file was deleted after provisioning.
 
 ## Requirements

@@ -29,6 +29,10 @@ export default function EmployeeProfileCard({ profile }: EmployeeProfileProps) {
         <h3>Employment details</h3>
         <dl>
           <div>
+            <dt>Job level</dt>
+            <dd>{profile.job_level}</dd>
+          </div>
+          <div>
             <dt>Work email</dt>
             <dd>
               <a href={`mailto:${profile.work_email}`}>{profile.work_email}</a>

@@ -1,10 +1,13 @@
 export type WorkspaceRole = 'employee' | 'manager' | 'hr_administrator';
+export type JobLevel =
+  'Director' | 'Head' | 'Manager' | 'Lead' | 'Senior' | 'Junior';
 
 export interface DirectoryEmployee {
   employee_id: string;
   full_name: string;
   work_email: string;
   job_title: string;
+  job_level: JobLevel;
   department_id: string;
   department: string;
   manager_id: string | null;
@@ -31,6 +34,7 @@ export interface EmployeeFields {
   full_name: string;
   work_email: string;
   job_title: string;
+  job_level: JobLevel;
   department_id: string;
   manager_id: string | null;
   start_date: string;

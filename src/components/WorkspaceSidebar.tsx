@@ -1,13 +1,11 @@
 import type { WorkspaceSidebarProps } from '../types/components';
 import { getRoleName, getInitials } from '../profile-presentation';
 import Brand from './Brand';
+import { NavLink, Link } from 'react-router';
 
 import './WorkspaceSidebar.css';
 
-export default function WorkspaceSidebar({
-  profile,
-  currentPage,
-}: WorkspaceSidebarProps) {
+export default function WorkspaceSidebar({ profile }: WorkspaceSidebarProps) {
   const roleName = getRoleName(profile.role);
   const initials = getInitials(profile.full_name);
   const accessLink = profile.role === 'manager' ? 'Team access' : 'HR access';
@@ -27,34 +25,39 @@ export default function WorkspaceSidebar({
 
       <nav aria-label="Workspace">
         <span className="nav-caption">WORKSPACE</span>
-        <a
-          className={`nav-item ${currentPage === 'profile' ? 'selected' : ''}`}
-          href="#profile"
-          aria-current={currentPage === 'profile' ? 'page' : undefined}
+        <NavLink
+          className={({ isActive }) => `nav-item ${isActive ? 'selected' : ''}`}
+          to="/profile"
         >
           <span aria-hidden="true">◉</span>My profile
-        </a>
-        <a
-          className={`nav-item ${currentPage === 'directory' ? 'selected' : ''}`}
-          href="#directory"
-          aria-current={currentPage === 'directory' ? 'page' : undefined}
+        </NavLink>
+        <NavLink
+          className={({ isActive }) => `nav-item ${isActive ? 'selected' : ''}`}
+          to="/directory"
         >
           <span aria-hidden="true">▦</span>Employee directory
-        </a>
+        </NavLink>
+        <NavLink
+          className={({ isActive }) => `nav-item ${isActive ? 'selected' : ''}`}
+          to="/reporting"
+        >
+          <span aria-hidden="true">↳</span>Reporting structure
+        </NavLink>
         {profile.role !== 'employee' && (
-          <a className="nav-item" href="#access">
+          <Link className="nav-item" to="/profile#access">
             <span aria-hidden="true">◇</span>
             {accessLink}
-          </a>
+          </Link>
         )}
         {profile.role === 'hr_administrator' && (
-          <a
-            className={`nav-item ${currentPage === 'departments' ? 'selected' : ''}`}
-            href="#departments"
-            aria-current={currentPage === 'departments' ? 'page' : undefined}
+          <NavLink
+            className={({ isActive }) =>
+              `nav-item ${isActive ? 'selected' : ''}`
+            }
+            to="/departments"
           >
             <span aria-hidden="true">◇</span>Departments
-          </a>
+          </NavLink>
         )}
       </nav>
       <div className="sidebar-footer">

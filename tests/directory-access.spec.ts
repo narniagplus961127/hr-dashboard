@@ -145,10 +145,15 @@ test('HR validation rejects duplicate emails, invalid Managers, self-management,
       p_full_name: 'Validation Example',
       p_work_email: email,
       p_job_title: 'Designer',
+      p_job_level: 'Junior',
       p_department_id: maya.department_id,
       p_manager_id: null,
       p_start_date: '2026-01-01',
     };
+    expect(
+      (await client.rpc('save_employee', { ...fields, p_job_level: null }))
+        .error?.code,
+    ).toBe('22023');
     expect(
       (
         await client.rpc('save_employee', {
@@ -274,6 +279,7 @@ test('HR creates and edits employment records independently of login accounts', 
       p_full_name: 'Nora Test',
       p_work_email: `nora-${suffix}@hr.example.test`,
       p_job_title: 'Designer',
+      p_job_level: 'Junior',
       p_department_id: department.data.id,
       p_manager_id: manager.employee_id,
       p_start_date: '2026-02-02',
@@ -287,6 +293,7 @@ test('HR creates and edits employment records independently of login accounts', 
       ...fields,
       p_employee_id: created.data,
       p_job_title: 'Senior Designer',
+      p_job_level: 'Senior',
     });
     expect(edited.error).toBeNull();
     const rename = await client

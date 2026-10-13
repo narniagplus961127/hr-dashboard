@@ -50,7 +50,7 @@ test('an Employee browses colleague details without private employment informati
   await expect(
     page.getByRole('link', { name: 'Departments', exact: true }),
   ).not.toBeVisible();
-  await page.goto('/#departments');
+  await page.goto('/departments');
   await expect(
     page.getByRole('heading', { name: 'Employee directory', exact: true }),
   ).toBeVisible();
@@ -76,6 +76,7 @@ test('HR gets an actionable duplicate email error and keeps the entered Employee
     .getByLabel('Work email', { exact: true })
     .fill('maya@hr.example.test');
   await page.getByLabel('Job title', { exact: true }).fill('Designer');
+  await page.getByLabel('Job level', { exact: true }).selectOption('Junior');
   await page
     .getByLabel('Department', { exact: true })
     .selectOption({ label: 'Engineering' });
@@ -207,6 +208,7 @@ test('HR maintains a Department and creates and edits an Employee visible to col
     .getByLabel('Work email', { exact: true })
     .fill(`lina-${suffix}@hr.example.test`);
   await page.getByLabel('Job title', { exact: true }).fill('Designer');
+  await page.getByLabel('Job level', { exact: true }).selectOption('Junior');
   await page
     .getByLabel('Department', { exact: true })
     .selectOption({ label: `Studio ${suffix}` });
@@ -225,6 +227,7 @@ test('HR maintains a Department and creates and edits an Employee visible to col
     .getByRole('button', { name: 'Edit employee', exact: true })
     .click();
   await page.getByLabel('Job title', { exact: true }).fill('Lead Designer');
+  await page.getByLabel('Job level', { exact: true }).selectOption('Lead');
   await page
     .getByRole('button', { name: 'Save employee', exact: true })
     .click();

@@ -5,6 +5,7 @@ import type {
   EmployeeFields,
 } from './types/employee';
 import { supabase } from './supabase';
+import { compareEmployees } from './job-levels';
 
 export async function getDepartments() {
   if (!supabase) throw new Error('Your workspace is not connected.');
@@ -31,7 +32,9 @@ export async function getManagerOptions() {
     .returns<EmployeeRecord[]>();
   if (error) throw new Error('Could not load Managers. Please try again.');
 
-  return data.filter((manager) => manager.user_id !== null);
+  return data
+    .filter((manager) => manager.user_id !== null)
+    .sort(compareEmployees);
 }
 
 export async function saveEmployee(
@@ -45,6 +48,7 @@ export async function saveEmployee(
     p_full_name: fields.full_name,
     p_work_email: fields.work_email,
     p_job_title: fields.job_title,
+    p_job_level: fields.job_level,
     p_department_id: fields.department_id,
     p_manager_id: fields.manager_id,
     p_start_date: fields.start_date,
@@ -107,7 +111,7 @@ export async function getDirectory() {
 
   if (error) throw new Error('Could not load employees. Please try again.');
 
-  return data;
+  return data.sort(compareEmployees);
 }
 
 export async function getEmployeeRecord(employeeId: string) {

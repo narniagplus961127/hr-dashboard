@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import type { BrandProps } from '../types/components';
 import './Brand.css';
 
@@ -15,8 +16,8 @@ export default function Brand({ light = false }: BrandProps) {
   return light ? (
     <div className="brand light">{content}</div>
   ) : (
-    <a className="brand" href="#profile">
+    <Link className="brand" to="/profile">
       {content}
-    </a>
+    </Link>
   );
 }

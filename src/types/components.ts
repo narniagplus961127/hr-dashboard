@@ -5,8 +5,6 @@ import type {
   EmployeeRecord,
 } from './employee';
 
-export type WorkspacePage = 'profile' | 'directory' | 'departments';
-
 export interface BrandProps {
   light?: boolean;
 }
@@ -17,9 +15,7 @@ export interface ProfilePageProps {
 export interface EmployeeProfileProps {
   profile: EmployeeProfile;
 }
-export interface WorkspaceSidebarProps extends EmployeeProfileProps {
-  currentPage: WorkspacePage;
-}
+export type WorkspaceSidebarProps = EmployeeProfileProps;
 export interface WorkspaceLayoutProps extends WorkspaceSidebarProps {
   submitting: boolean;
   onSignOut: () => Promise<void>;
@@ -45,4 +41,10 @@ export interface EmployeeFormProps {
 export interface DirectoryPageProps {
   viewer: EmployeeProfile;
   onRecordSaved: () => Promise<void>;
+}
+
+export interface ReportingBranchProps {
+  employee: DirectoryEmployee;
+  employees: DirectoryEmployee[];
+  ancestors: string[];
 }

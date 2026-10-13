@@ -29,6 +29,14 @@ No actionable findings in `a7ef187...a878103`. Directory visibility, owner/HR pr
 
 Review totals: Standards 0 findings; Spec 0 findings.
 
+## Routing and job-level follow-up
+
+The owner requested React Router and confirmed both seniority ordering and reporting structure, with Director → Head → Manager → Lead → Senior → Junior. React Router now handles protected URLs, employee detail deep links, refresh, and browser history. Directory ordering follows level and name; reporting follows existing Manager assignments. HR must explicitly select a job level for new records; API validation rejects missing or unsupported levels. Job levels do not change permission roles.
+
+Existing fictional Lead/Senior test records were backfilled to match their titles, and browser/API fixtures now choose matching levels. These are disposable local learning records; their generated suffixes distinguish test runs.
+
+Follow-up verification: 46 desktop/mobile browser and API tests passed; typecheck, production build, and Prettier passed. The local security advisor found no issues. A fresh shadow database applied all migrations for schema comparison; the generated follow-up migration records the normalized private function definitions. Mobile reporting showed no horizontal overflow at 390px.
+
 ## Deployment
 
 The migration and frontend are local for review. Hosted Supabase and Cloudflare Pages were not changed for Ticket 02. Apply the migration before deploying the frontend. Git push and GitHub issue closure are left to the owner.

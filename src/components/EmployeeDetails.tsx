@@ -70,6 +70,10 @@ export default function EmployeeDetails({
 
       <dl>
         <div>
+          <dt>Job level</dt>
+          <dd>{employee.job_level}</dd>
+        </div>
+        <div>
           <dt>Work email</dt>
           <dd>
             <a href={`mailto:${employee.work_email}`}>{employee.work_email}</a>

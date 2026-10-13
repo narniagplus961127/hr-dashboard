@@ -1,7 +1,10 @@
+import { Link } from 'react-router';
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { getDepartments, getManagerOptions, saveEmployee } from '../employees';
 import type { Department, EmployeeRecord } from '../types/employee';
+import type { JobLevel } from '../types/employee';
+import { jobLevels } from '../job-levels';
 import type { EmployeeFormProps } from '../types/components';
 
 import './EmployeeForm.css';
@@ -59,6 +62,7 @@ export default function EmployeeForm({
         full_name: String(fields.get('full_name')).trim(),
         work_email: String(fields.get('work_email')).trim(),
         job_title: String(fields.get('job_title')).trim(),
+        job_level: String(fields.get('job_level')) as JobLevel,
         department_id: String(fields.get('department_id')),
         manager_id: String(fields.get('manager_id')) || null,
         start_date: String(fields.get('start_date')),
@@ -108,12 +112,34 @@ export default function EmployeeForm({
           )}
           {departments.length === 0 ? (
             <p>
-              Add a Department from <a href="#departments">Departments</a>{' '}
+              Add a Department from <Link to="/departments">Departments</Link>{' '}
               before creating an Employee.
             </p>
           ) : (
             <form className="employee-form" onSubmit={submit}>
               <fieldset disabled={submitting}>
+                <div>
+                  <label htmlFor="employee-job-level">Job level</label>
+                  <select
+                    id="employee-job-level"
+                    name="job_level"
+                    defaultValue={employee?.job_level ?? ''}
+                    required
+                  >
+                    <option value="" disabled>
+                      Choose a job level
+                    </option>
+                    {jobLevels.map((level) => (
+                      <option key={level} value={level}>
+                        {level}
+                      </option>
+                    ))}
+                  </select>
+                  <small>
+                    Seniority does not change the account's workspace
+                    permissions.
+                  </small>
+                </div>
                 <div>
                   <label htmlFor="employee-full-name">Full name</label>
                   <input

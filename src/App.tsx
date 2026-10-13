@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { useEmployeeSession } from './hooks/useEmployeeSession';
 import LoadingScreen from './components/LoadingScreen';
 import WorkspaceLayout from './components/WorkspaceLayout';
@@ -6,31 +6,10 @@ import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import DirectoryPage from './pages/DirectoryPage';
 import DepartmentsPage from './pages/DepartmentsPage';
-import type { WorkspacePage } from './types/components';
+import ReportingPage from './pages/ReportingPage';
 
 export default function App() {
-  const [page, setPage] = useState<WorkspacePage>(() =>
-    window.location.hash === '#directory'
-      ? 'directory'
-      : window.location.hash === '#departments'
-        ? 'departments'
-        : 'profile',
-  );
-
-  useEffect(() => {
-    function updatePage() {
-      setPage(
-        window.location.hash === '#directory'
-          ? 'directory'
-          : window.location.hash === '#departments'
-            ? 'departments'
-            : 'profile',
-      );
-    }
-    window.addEventListener('hashchange', updatePage);
-    return () => window.removeEventListener('hashchange', updatePage);
-  }, []);
-
+  const location = useLocation();
   const {
     profile,
     loading,
@@ -44,34 +23,75 @@ export default function App() {
 
   if (loading) return <LoadingScreen />;
 
-  if (profile)
+  if (!profile)
     return (
-      <WorkspaceLayout
-        profile={profile}
-        submitting={submitting}
-        onSignOut={signOut}
-        currentPage={
-          page === 'departments' && profile.role !== 'hr_administrator'
-            ? 'directory'
-            : page
-        }
-      >
-        {page === 'departments' && profile.role === 'hr_administrator' ? (
-          <DepartmentsPage />
-        ) : page === 'directory' || page === 'departments' ? (
-          <DirectoryPage viewer={profile} onRecordSaved={refreshProfile} />
-        ) : (
-          <ProfilePage profile={profile} error={error} />
-        )}
-      </WorkspaceLayout>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <LoginPage
+              error={error}
+              connected={connected}
+              submitting={submitting}
+              onSignIn={signIn}
+            />
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Navigate to="/login" replace state={{ from: location.pathname }} />
+          }
+        />
+      </Routes>
     );
 
+  const from = location.state?.from;
+  const destination =
+    typeof from === 'string' &&
+    from.startsWith('/') &&
+    !from.startsWith('//') &&
+    from !== '/login'
+      ? from
+      : '/profile';
+
   return (
-    <LoginPage
-      error={error}
-      connected={connected}
+    <WorkspaceLayout
+      profile={profile}
       submitting={submitting}
-      onSignIn={signIn}
-    />
+      onSignOut={signOut}
+    >
+      <Routes>
+        <Route path="/reporting" element={<ReportingPage />} />
+        <Route
+          path="/profile"
+          element={<ProfilePage profile={profile} error={error} />}
+        />
+        <Route
+          path="/directory"
+          element={
+            <DirectoryPage viewer={profile} onRecordSaved={refreshProfile} />
+          }
+        />
+        <Route
+          path="/directory/:employeeId"
+          element={
+            <DirectoryPage viewer={profile} onRecordSaved={refreshProfile} />
+          }
+        />
+        <Route
+          path="/departments"
+          element={
+            profile.role === 'hr_administrator' ? (
+              <DepartmentsPage />
+            ) : (
+              <Navigate to="/directory" replace />
+            )
+          }
+        />
+        <Route path="/login" element={<Navigate to={destination} replace />} />
+        <Route path="*" element={<Navigate to="/profile" replace />} />
+      </Routes>
+    </WorkspaceLayout>
   );
 }

@@ -1,0 +1,146 @@
+.profile-card {
+  background: white;
+  border: 1px solid #e1e9e3;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px #243d3b03;
+}
+
+.profile-cover {
+  position: relative;
+  overflow: hidden;
+  height: 140px;
+  background: #dcece3;
+}
+
+.cover-orbit {
+  width: 360px;
+  height: 360px;
+  border: 1px solid #aac6b350;
+  border-radius: 50%;
+  position: absolute;
+  right: -30px;
+  top: -215px;
+}
+
+.orbit-two {
+  right: 12px;
+  top: -172px;
+}
+
+.cover-caption {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: #688b77;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.profile-identity {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 32px 25px;
+  margin-top: -33px;
+}
+
+.profile-identity h2 {
+  font-size: 22px;
+  letter-spacing: -0.6px;
+  margin-top: 38px;
+}
+
+.profile-identity p {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.role-pill {
+  margin: 37px 0 0 auto;
+  border: 1px solid #e0e8e3;
+  padding: 6px 11px;
+  border-radius: 5px;
+  font-size: 10px;
+  background: #fafcf9;
+  color: #65766c;
+}
+
+.profile-details {
+  margin: 0 32px;
+  border-top: 1px solid #edf0ec;
+  padding: 25px 0 30px;
+}
+
+.profile-details h3 {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;
+  row-gap: 27px;
+  margin: 24px 0 0;
+}
+
+dt {
+  color: var(--muted);
+  font-size: 10px;
+  margin-bottom: 7px;
+}
+
+dd {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+dd a {
+  text-decoration: none;
+}
+
+dd a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .profile-cover {
+    height: 110px;
+  }
+
+  .cover-caption {
+    right: 20px;
+    bottom: 16px;
+    font-size: 10px;
+  }
+
+  .profile-identity {
+    padding: 0 20px 23px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .profile-identity h2 {
+    font-size: 19px;
+    margin-top: 37px;
+  }
+
+  .role-pill {
+    margin: 0;
+  }
+
+  .profile-details {
+    margin: 0 20px;
+  }
+
+  dl {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}

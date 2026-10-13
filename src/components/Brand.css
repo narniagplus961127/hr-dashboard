@@ -1,0 +1,44 @@
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 17px;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: white;
+  background: var(--teal);
+  font-size: 31px;
+  line-height: 1;
+  padding-bottom: 4px;
+}
+
+.brand-caption {
+  display: block;
+  font:
+    10px 'DM Sans',
+    system-ui,
+    sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  margin-top: 3px;
+  color: var(--muted);
+}
+
+.light .brand-mark {
+  background: #e3f5ed;
+  color: #0c5a53;
+}
+
+.light .brand-caption {
+  color: #acd0c7;
+}

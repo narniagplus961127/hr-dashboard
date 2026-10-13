@@ -1,0 +1,270 @@
+.login-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100dvh;
+}
+
+.login-story {
+  position: relative;
+  background: #104e48;
+  color: #f4faf7;
+  padding: 48px 64px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 700px;
+}
+
+.story-content {
+  position: relative;
+  z-index: 1;
+  margin: 74px 0 24px;
+}
+
+.story-content .eyebrow {
+  color: #a4cfc1;
+  margin-bottom: 26px;
+}
+
+.story-content h2 {
+  font-size: clamp(38px, 4.2vw, 64px);
+  letter-spacing: -3px;
+  line-height: 1.12;
+  font-weight: 600;
+}
+
+.story-content > p:not(.eyebrow) {
+  color: #bdd7ce;
+  line-height: 1.7;
+  font-size: 16px;
+  margin-top: 24px;
+}
+
+.story-footer {
+  font-size: 11px;
+  color: #a8ccc0;
+  letter-spacing: 0.3px;
+}
+
+.story-art {
+  position: relative;
+  height: 175px;
+  margin-top: 40px;
+}
+
+.art-ring {
+  width: 300px;
+  height: 300px;
+  border: 1px solid #5d93815e;
+  border-radius: 50%;
+  position: absolute;
+  top: -55px;
+  right: -30px;
+}
+
+.art-ring::before,
+.art-ring::after {
+  content: '';
+  position: absolute;
+  border: 1px solid #5d93815e;
+  border-radius: 50%;
+  inset: 24px;
+}
+
+.art-ring::after {
+  inset: 48px;
+}
+
+.art-card {
+  position: relative;
+  z-index: 1;
+  top: 48px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #e9f3e5;
+  color: #214e43;
+  width: min(350px, 100%);
+  padding: 24px;
+  border-radius: 18px;
+  transform: rotate(-5deg);
+  box-shadow: 0 18px 35px #052b2933;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.art-avatar {
+  display: grid;
+  place-items: center;
+  background: #cbdcc0;
+  border-radius: 50%;
+  height: 48px;
+  width: 48px;
+  font-size: 28px;
+}
+
+.art-dot {
+  height: 9px;
+  width: 9px;
+  background: #42886b;
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+.login-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fbfcfa;
+  padding: 80px 48px;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 355px;
+}
+
+.login-kicker {
+  color: var(--teal);
+}
+
+.login-content h1 {
+  margin-top: 16px;
+  font-size: 37px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+}
+
+.login-intro {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 14px 0 32px;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+form label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+form input {
+  width: 100%;
+  background: white;
+  border: 1px solid #dce5df;
+  border-radius: 9px;
+  padding: 14px 16px;
+  color: #243d3b;
+  font-size: 13px;
+}
+
+form input::placeholder {
+  color: #a1ada7;
+}
+
+.primary-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 0;
+  border-radius: 9px;
+  color: white;
+  background: var(--teal);
+  padding: 15px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 18px;
+  box-shadow: 0 4px 12px #0c756f18;
+}
+
+.primary-button:hover {
+  background: #095f5a;
+}
+
+.primary-button span {
+  font-size: 20px;
+}
+
+.sign-in-help {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.8;
+  margin-top: 28px;
+}
+
+.sign-in-help strong {
+  color: #536d62;
+  font-weight: 500;
+}
+
+.login-footer {
+  position: absolute;
+  bottom: 30px;
+  font-size: 10px;
+  color: #84988d;
+}
+
+.login-footer span {
+  margin: 0 12px;
+}
+
+@media (min-width: 1500px) {
+  .login-story {
+    padding: 60px 100px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .login-story {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 700px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .login-story {
+    min-height: auto;
+    padding: 28px;
+  }
+
+  .story-content {
+    margin: 32px 0 0;
+  }
+
+  .story-content .eyebrow,
+  .story-content > p:not(.eyebrow),
+  .story-art,
+  .story-footer {
+    display: none;
+  }
+
+  .story-content h2 {
+    font-size: 32px;
+    letter-spacing: -1.3px;
+  }
+
+  .story-content h2 br {
+    display: none;
+  }
+
+  .login-panel {
+    min-height: 540px;
+    padding: 44px 28px 80px;
+    align-items: flex-start;
+  }
+
+  .login-content h1 {
+    font-size: 31px;
+  }
+}

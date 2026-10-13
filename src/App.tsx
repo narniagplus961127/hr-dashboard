@@ -7,6 +7,8 @@ import ProfilePage from './pages/ProfilePage';
 import DirectoryPage from './pages/DirectoryPage';
 import DepartmentsPage from './pages/DepartmentsPage';
 import ReportingPage from './pages/ReportingPage';
+import CalendarPage from './pages/CalendarPage';
+import HolidaysPage from './pages/HolidaysPage';
 
 export default function App() {
   const location = useLocation();
@@ -63,6 +65,17 @@ export default function App() {
     >
       <Routes>
         <Route path="/reporting" element={<ReportingPage />} />
+        <Route path="/calendar" element={<CalendarPage />} />
+        <Route
+          path="/holidays"
+          element={
+            profile.role === 'hr_administrator' ? (
+              <HolidaysPage />
+            ) : (
+              <Navigate to="/calendar" replace />
+            )
+          }
+        />
         <Route
           path="/profile"
           element={<ProfilePage profile={profile} error={error} />}

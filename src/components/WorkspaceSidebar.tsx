@@ -25,6 +25,16 @@ export default function WorkspaceSidebar({ profile }: WorkspaceSidebarProps) {
 
       <nav aria-label="Workspace">
         <span className="nav-caption">WORKSPACE</span>
+        {profile.role !== 'employee' && (
+          <NavLink
+            className={({ isActive }) =>
+              `nav-item ${isActive ? 'selected' : ''}`
+            }
+            to="/approvals"
+          >
+            <span aria-hidden="true">✓</span>Leave approvals
+          </NavLink>
+        )}
         <NavLink
           className={({ isActive }) => `nav-item ${isActive ? 'selected' : ''}`}
           to="/my-leave"

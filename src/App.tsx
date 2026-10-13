@@ -9,6 +9,7 @@ import DepartmentsPage from './pages/DepartmentsPage';
 import ReportingPage from './pages/ReportingPage';
 import LeaveBalancesPage from './pages/LeaveBalancesPage';
 import MyLeavePage from './pages/MyLeavePage';
+import ApprovalsPage from './pages/ApprovalsPage';
 import CalendarPage from './pages/CalendarPage';
 import HolidaysPage from './pages/HolidaysPage';
 
@@ -66,6 +67,16 @@ export default function App() {
       onSignOut={signOut}
     >
       <Routes>
+        <Route
+          path="/approvals"
+          element={
+            profile.role !== 'employee' ? (
+              <ApprovalsPage />
+            ) : (
+              <Navigate to="/my-leave" replace />
+            )
+          }
+        />
         <Route path="/my-leave" element={<MyLeavePage viewer={profile} />} />
         <Route
           path="/entitlements"

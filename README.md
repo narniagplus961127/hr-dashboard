@@ -4,6 +4,8 @@ A single-company HR learning app with fictional employees. Ticket 01 implements 
 
 React, TypeScript, and Vite provide the frontend. Supabase provides authentication and PostgreSQL. Cloudflare Pages hosts the static build.
 
+Ticket 01 is deployed at [HR Dashboard](https://hr-dashboard-demo.pages.dev). All four accounts listed below can sign in; the owner-approved local `.env.demo.local` contains their shared hosted demo password and remains gitignored. The temporary setup-key file was deleted after provisioning.
+
 ## Requirements
 
 - Node.js 24 or newer and npm.

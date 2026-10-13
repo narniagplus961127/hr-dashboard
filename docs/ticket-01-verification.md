@@ -15,7 +15,7 @@ No actionable findings. The review found no documented-standard violations or su
 
 No actionable source findings. Profile access is enforced through RLS and explicit grants; protected role data does not come from editable auth metadata. Session validation denies access from a copied token after sign-out. The implementation stays within ticket 01 and does not implement the later directory, leave, approval, or calendar tickets.
 
-The hosted first-screen acceptance remains open until account seeding, deployment, and hosted browser checks are complete.
+The hosted first-screen acceptance is complete: all four demo accounts are provisioned, the frontend is deployed, and hosted browser checks passed.
 
 ## Verification performed on 2026-10-13
 
@@ -29,8 +29,11 @@ The hosted first-screen acceptance remains open until account seeding, deploymen
 - Pages deployment package built with only the hosted project URL and publishable key. Package contains only static build assets; no privileged key was found in the build.
 - Local preview inspected visually and restored to the isolated local backend.
 
-## Outstanding hosted acceptance
+## Hosted acceptance completed
 
-- Hosted demo accounts are not yet seeded. Automatic approval review rejected local storage of the hosted setup key and generated password without explicit authorization; the user's credential-storage decision remains pending.
-- Cloudflare Pages upload setup is prepared, but the frontend has not yet been published or verified against hosted demo accounts.
+- All four fictional demo accounts were seeded after the owner explicitly authorized temporary setup-key storage and retained local demo-password storage. The temporary `.env.admin.local` was deleted immediately afterward; `.env.demo.local` remains gitignored for the owner's test logins.
+- Hosted API checks verified password login, exactly one own profile with the expected role, and denial of copied access tokens after sign-out for all four accounts.
+- Cloudflare Pages Direct Upload deployed only the three compiled static assets to [HR Dashboard](https://hr-dashboard-demo.pages.dev), without payment details or a paid service.
+- Hosted browser checks verified Employee profile loading, sign-out across reload, Manager navigation, and both HR Administrator accounts' navigation and sign-out.
+- Hosted profile screenshot: local, ignored `test-results/hosted-profile.png`.
 - Source was committed locally; no Git push or issue closure has been performed.

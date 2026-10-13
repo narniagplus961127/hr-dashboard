@@ -18,29 +18,35 @@ Ticket 01 is deployed at [HR Dashboard](https://hr-dashboard-demo.pages.dev). Al
 
 ## Local development and tests
 
+Install dependencies and start the development backend and frontend:
+
 ```powershell
 npm ci
 npm run backend:start
-npm run test:setup
+npm run dev
 ```
 
-`test:setup` uses the local Supabase CLI to obtain loopback settings, creates four fictional accounts, and writes `.env.test.local`. It refuses a hosted backend. The file is gitignored and contains the randomly generated local test password; the server-side key is not written to it or printed. Re-running setup retains that password and does not reset existing accounts.
+The frontend uses port 5173 and the public Supabase settings in gitignored `.env.local`. Development Supabase uses API port 54321 and retains its data between restarts. For initial account provisioning, use the trusted `demo:seed` setup described below with local backend credentials. Existing development accounts do not need to be recreated.
 
-Copy the local API URL and publishable key from `.env.test.local` into `.env.local` using the variable names in `.env.example`, then run:
+The owner's account reference is in gitignored `.local/demo-accounts.md`. It contains separate local and hosted credentials; never commit it. The existing `.env.test.local` is a legacy local credential reference and is no longer loaded by automated tests.
+
+Before working, check the current branch and backend state:
 
 ```powershell
-npm run dev
-npm run typecheck
+npm run preflight
+npm run check
 npm test
-npm run format:check
-npm run build
 ```
 
-The frontend uses port 5173. Tests start their own frontend on 5174 and use the local real backend; they never use the hosted project. `HR_TEST_FRONTEND_PORT` can select a different test frontend port for an isolated worktree. Desktop and mobile workflows cover the complete employee request → Manager approval → balance/calendar update → HR cancellation flow, alongside login, directory, Departments, holidays, entitlements, reporting, deactivation, and overview. Public API checks cover permissions, private-field isolation, revoked sessions, atomic allocation transitions, competing decisions/submissions, reporting changes, and deterministic Kuala Lumpur midnight boundaries. Trusted fixture setup controls only the isolated company-date helper and restores it afterward; authentication uses real time.
+`npm test` creates a new disposable Supabase project for each run, applies tracked migrations, and creates fictional accounts with a fresh password kept in memory. It uses API port 56421, database port 56422, shadow port 56420, and frontend port 56414. After the run, it removes only its own containers, volumes, and runtime directory. It never resets the development project or uses hosted services. Docker Desktop must be running. Only one test run can own these ports at a time.
 
-The test suite uses the installed Google Chrome browser. It does not download another browser. If Chrome is unavailable, install Chrome or adjust the Playwright browser configuration for an available installation.
+Run selected workflows with `npm test -- tests/entitlements.spec.ts`, or use `npm run test:ui`. Direct Playwright and `test:setup` invocations are rejected without the runner's ownership context. If a process is forcibly terminated, inspect its retained runtime and Docker project before removing a stale `.test-runtime/runner.lock`; do not delete development volumes.
 
-To apply new local migrations or stop only this project's containers without deleting their data:
+Tests use installed Google Chrome locally. CI sets `HR_TEST_BROWSER=chromium` and installs Playwright's matching Chromium. Desktop and mobile workflows cover employee requests, Manager approval, balance/calendar updates, HR cancellation, directory, Departments, holidays, entitlements, reporting, deactivation, and overview. Direct API checks verify permissions and competing state transitions against the disposable real database.
+
+Commits format staged files with Prettier and run type checking plus fast test-runner safety checks. GitHub Actions runs formatting, type checking, a production build, and the complete real-backend browser suite for pull requests and pushes to main. It uses no hosted credentials. See [repository checks](.github/workflows/checks.yml).
+
+To apply local migrations or stop the development containers while retaining data:
 
 ```powershell
 npm run supabase -- migration up --local

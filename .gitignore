@@ -9,3 +9,5 @@ supabase/.temp/
 supabase/.branches/
 *.log
 .worktrees/
+.test-runtime/
+.local/

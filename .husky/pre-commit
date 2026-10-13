@@ -1,0 +1,1 @@
+node .husky/pre-commit.mjs # Portable hook entrypoint; keep CRLF in repository files.

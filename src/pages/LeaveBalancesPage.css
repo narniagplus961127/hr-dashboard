@@ -22,6 +22,41 @@
   margin-bottom: 18px;
 }
 
+.leave-year-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.leave-year-field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.leave-year-field input {
+  width: 112px;
+}
+
+.leave-balance-panel form {
+  display: grid;
+  gap: 10px;
+  max-width: 440px;
+}
+
+.leave-balance-panel form label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.leave-balance-panel form label:not(:first-child) {
+  margin-top: 10px;
+}
+
+.leave-balance-panel form button {
+  justify-self: start;
+  margin-top: 8px;
+}
+
 .leave-policy {
   font-size: 13px;
   line-height: 1.6;

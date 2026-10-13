@@ -28,6 +28,10 @@
   min-width: 0;
 }
 
+.request-leave-form select {
+  padding-right: 42px;
+}
+
 .request-leave-form textarea {
   min-height: 85px;
   resize: vertical;

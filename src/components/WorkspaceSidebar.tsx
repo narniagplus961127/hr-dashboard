@@ -59,6 +59,22 @@ export default function WorkspaceSidebar({ profile }: WorkspaceSidebarProps) {
         >
           <span aria-hidden="true">↳</span>Reporting structure
         </NavLink>
+        <NavLink
+          className={({ isActive }) => `nav-item ${isActive ? 'selected' : ''}`}
+          to="/calendar"
+        >
+          <span aria-hidden="true">▦</span>Shared calendar
+        </NavLink>
+        {profile.role === 'hr_administrator' && (
+          <NavLink
+            className={({ isActive }) =>
+              `nav-item ${isActive ? 'selected' : ''}`
+            }
+            to="/holidays"
+          >
+            <span aria-hidden="true">◇</span>Public holidays
+          </NavLink>
+        )}
         {profile.role !== 'employee' && (
           <Link className="nav-item" to="/profile#access">
             <span aria-hidden="true">◇</span>

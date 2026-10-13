@@ -1,0 +1,71 @@
+.holidays-page {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  padding: 36px;
+}
+
+.holiday-panel {
+  background: white;
+  border: 1px solid #dde9e5;
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.holiday-form {
+  display: grid;
+  gap: 12px;
+  max-width: 500px;
+}
+
+.holiday-form input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #dde9e5;
+  min-width: 0;
+}
+
+.holiday-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.holiday-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.holiday-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #dde9e5;
+}
+
+.holiday-list strong,
+.holiday-list time {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.holiday-list time {
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+@media (max-width: 680px) {
+  .holidays-page {
+    padding: 24px 16px;
+  }
+  .holiday-panel {
+    padding: 18px;
+  }
+  .holiday-list li {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

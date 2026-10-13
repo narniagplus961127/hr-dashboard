@@ -12,7 +12,7 @@ Ticket 04 provides owner and HR balance reads and HR allowance edits. Annual and
 
 `private.lock_leave_entitlement(employee_id uuid, year integer, type text)` returns the allowance, inserts the default 14-day row if absent, then holds that row `FOR UPDATE` until the transaction ends. It is an internal SECURITY INVOKER helper with execution revoked from PUBLIC, anonymous, and authenticated roles. Authorized private SECURITY DEFINER request/decision functions can call it as their trusted owner.
 
-Every reservation, approval, rejection, cancellation, and entitlement edit must use this lock before reading or changing allocation totals. For multi-year requests, acquire keys in ascending year order (and a consistent Employee/type order if touching multiple owners or types). This shared lock serializes allowance edits against request transitions and prevents concurrent overspending.
+Every reservation, approval, rejection, cancellation, and entitlement edit must use this lock before reading or changing allocation totals. Each request must start and end within one calendar year; cross-year requests are rejected. Operations touching multiple allocations, such as Employee deactivation, acquire keys in a consistent Employee/year/type order. This shared lock serializes allowance edits against request transitions and prevents concurrent overspending.
 
 `private.leave_allocations` is the accounting ledger:
 
@@ -25,7 +25,7 @@ Every reservation, approval, rejection, cancellation, and entitlement edit must 
 | `reserved_days integer` | Pending working days, initially zero                     |
 | `used_days integer`     | Approved working days, initially zero                    |
 
-The primary key is `(request_id, leave_year)`. Each row references its entitlement key; values must be nonnegative and at most one of reserved/used may be nonzero. One request spanning two years has two ledger rows. No request records or allocations are created by Ticket 04; usage and reservations correctly remain zero until later workflows write them.
+The primary key is `(request_id, leave_year)`. Each row references its entitlement key; values must be nonnegative and at most one of reserved/used may be nonzero. Each supported request has one allocation row for its single calendar year. No request records or allocations are created by Ticket 04; usage and reservations correctly remain zero until later workflows write them.
 
 Pending creation inserts reservations. Approval atomically moves reserved days into used days. Rejection or cancellation releases its allocation. Request status/history and allocation transitions must occur in the same transaction, with current-status checks preventing double release or duplicate approval. Later tickets should add a request foreign key when the request table exists. This ledger never grants users permission to mutate allocations directly.
 

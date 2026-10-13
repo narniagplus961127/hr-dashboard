@@ -87,6 +87,54 @@ test('HR deactivates from employee details and an existing Employee screen clear
   }
 });
 
+test('focus preserves an active Employee draft and clears the screen after HR deactivation', async ({
+  page,
+}) => {
+  const account = lifecycleAccount();
+  const hr = publicClient();
+  await hr.auth.signInWithPassword({
+    email: 'aisha@hr.example.test',
+    password: process.env.TEST_DEMO_PASSWORD ?? '',
+  });
+  try {
+    await page.goto('/my-leave');
+    await page.getByLabel('Work email').fill(account.email);
+    await page
+      .getByLabel('Password', { exact: true })
+      .fill(process.env.TEST_DEMO_PASSWORD ?? '');
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await page.getByLabel('Reason (optional)').fill('Keep this unsaved draft');
+    const refreshed = page.waitForResponse(
+      (response) =>
+        response.url().includes('/employee_profiles?') &&
+        response.status() === 200,
+    );
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await refreshed;
+    await expect(page.getByLabel('Reason (optional)')).toHaveValue(
+      'Keep this unsaved draft',
+    );
+    expect(
+      (
+        await hr.rpc('deactivate_employee', {
+          p_employee_id: account.employeeId,
+        })
+      ).error,
+    ).toBeNull();
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await expect(page).toHaveURL(/\/login$/);
+    await expect(page.getByLabel('Reason (optional)')).toHaveCount(0);
+    await expect(
+      page.getByText(
+        'Your employee profile is unavailable. Please contact your HR Administrator.',
+      ),
+    ).toBeVisible();
+  } finally {
+    await hr.auth.signOut({ scope: 'local' });
+    removeLifecycleAccount(account);
+  }
+});
+
 test('HR edits the Manager in the browser and pending approvals move to the new Manager', async ({
   page,
 }) => {

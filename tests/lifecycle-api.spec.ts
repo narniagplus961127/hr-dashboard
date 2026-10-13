@@ -292,6 +292,8 @@ test('deactivation cancels future allocations exactly once, preserves started le
       ],
       ['get_leave_balances', { p_year: 2051 }],
       ['get_approval_requests', {}],
+      ['get_calendar_absences', {}],
+      ['get_workspace_overview', {}],
       ['deactivate_employee', { p_employee_id: account.employeeId }],
     ] as const)
       expect((await copied.rpc(rpc, args)).error?.code).toBe('42501');

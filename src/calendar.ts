@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import type { CompanyHoliday } from './types/calendar';
+import type { CalendarAbsence, CompanyHoliday } from './types/calendar';
 
 export function companyToday() {
   return new Intl.DateTimeFormat('en-CA', {
@@ -29,6 +29,14 @@ export async function getHolidays() {
   if (error)
     throw new Error('Could not load Public holidays. Please try again.');
   return data;
+}
+
+export async function getCalendarAbsences(): Promise<CalendarAbsence[]> {
+  if (!supabase) throw new Error('Your workspace is not connected.');
+  const { data, error } = await supabase.rpc('get_calendar_absences');
+  if (error)
+    throw new Error('Could not load approved absences. Please try again.');
+  return data ?? [];
 }
 
 export async function saveHoliday(

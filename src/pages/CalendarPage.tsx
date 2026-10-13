@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { companyToday, getHolidays } from '../calendar';
-import type { CompanyHoliday } from '../types/calendar';
+import { companyToday, getCalendarAbsences, getHolidays } from '../calendar';
+import type { CalendarAbsence, CompanyHoliday } from '../types/calendar';
 import './CalendarPage.css';
 
 export default function CalendarPage() {
   const [month, setMonth] = useState(companyToday().slice(0, 7));
   const [holidays, setHolidays] = useState<CompanyHoliday[]>([]);
+  const [absences, setAbsences] = useState<CalendarAbsence[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [revision, setRevision] = useState(0);
@@ -13,9 +14,13 @@ export default function CalendarPage() {
   useEffect(() => {
     let alive = true;
     setLoading(true);
-    void getHolidays()
-      .then((data) => {
-        if (alive) setHolidays(data);
+    setError('');
+    void Promise.all([getHolidays(), getCalendarAbsences()])
+      .then(([holidayData, absenceData]) => {
+        if (alive) {
+          setHolidays(holidayData);
+          setAbsences(absenceData);
+        }
       })
       .catch((failure: Error) => {
         if (alive) setError(failure.message);
@@ -57,8 +62,15 @@ export default function CalendarPage() {
           onChange={(event) => setMonth(event.target.value)}
         />
         <span className="calendar-legend">
-          Public holiday · company non-working day
+          Public holiday · company non-working day · Away · approved absence
         </span>
+        <button
+          className="secondary-button"
+          disabled={loading}
+          onClick={() => setRevision((value) => value + 1)}
+        >
+          Refresh calendar
+        </button>
       </div>
       {error && (
         <p className="error-message" role="alert">
@@ -76,7 +88,7 @@ export default function CalendarPage() {
       )}
       {loading ? (
         <p role="status">Loading calendar…</p>
-      ) : (
+      ) : !error ? (
         <section
           className="calendar-grid"
           aria-label="Monthly company calendar"
@@ -98,6 +110,9 @@ export default function CalendarPage() {
             const holiday = holidays.find(
               (entry) => entry.holiday_date === date,
             );
+            const away = absences.filter(
+              (entry) => entry.start_date <= date && entry.end_date >= date,
+            );
             return (
               <article
                 key={date}
@@ -111,11 +126,20 @@ export default function CalendarPage() {
                     <strong>{holiday.name}</strong>
                   </div>
                 )}
+                {away.map((absence, absenceIndex) => (
+                  <div
+                    className="calendar-away"
+                    key={`${absence.employee_id}-${absence.start_date}-${absenceIndex}`}
+                  >
+                    <span>Away</span>
+                    <strong>{absence.full_name}</strong>
+                  </div>
+                ))}
               </article>
             );
           })}
         </section>
-      )}
+      ) : null}
       {!loading &&
         !error &&
         !holidays.some((holiday) => holiday.holiday_date.startsWith(month)) && (

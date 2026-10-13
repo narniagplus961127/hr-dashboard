@@ -12,13 +12,15 @@ export default function WorkspaceLayout({
 }: WorkspaceLayoutProps) {
   const { pathname } = useLocation();
   const title =
-    pathname === '/reporting'
-      ? 'Reporting structure'
-      : pathname.startsWith('/directory')
-        ? 'Employee directory'
-        : pathname === '/departments'
-          ? 'Departments'
-          : 'My profile';
+    pathname === '/overview'
+      ? 'Overview'
+      : pathname === '/reporting'
+        ? 'Reporting structure'
+        : pathname.startsWith('/directory')
+          ? 'Employee directory'
+          : pathname === '/departments'
+            ? 'Departments'
+            : 'My profile';
   return (
     <div className="workspace-shell">
       <a className="skip-link" href="#main-content">

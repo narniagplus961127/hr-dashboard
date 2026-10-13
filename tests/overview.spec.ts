@@ -117,7 +117,7 @@ test('Employee submission and Manager decisions refresh real overview totals for
       await page.getByLabel('Leave start date').fill(date);
       await page.getByLabel('Leave end date').fill(date);
       await page
-        .getByLabel('Reason (optional)')
+        .getByLabel('Reason (optional)', { exact: true })
         .fill('Overview browser fixture');
       await page
         .getByRole('button', { name: 'Submit leave request', exact: true })

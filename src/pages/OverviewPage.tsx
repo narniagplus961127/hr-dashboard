@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getOverview } from '../overview';
 import type { WorkspaceOverview } from '../types/overview';
+
 import './OverviewPage.css';
 
 const scopeLabels = {

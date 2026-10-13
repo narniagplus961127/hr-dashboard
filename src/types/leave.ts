@@ -38,6 +38,11 @@ export interface LeaveHistory {
   created_at: string;
 }
 
+export interface LeaveHistoryListProps {
+  history: LeaveHistory[];
+  requestId: string;
+}
+
 export interface LeaveBalance {
   employee_id: string;
   full_name: string;

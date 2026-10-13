@@ -4,6 +4,17 @@ import { useLocation } from 'react-router';
 
 import './WorkspaceLayout.css';
 
+const pageTitles: Record<string, string> = {
+  '/overview': 'Overview',
+  '/reporting': 'Reporting structure',
+  '/departments': 'Departments',
+  '/calendar': 'Shared calendar',
+  '/my-leave': 'My leave',
+  '/approvals': 'Leave approvals',
+  '/holidays': 'Public holidays',
+  '/entitlements': 'Leave entitlements',
+};
+
 export default function WorkspaceLayout({
   profile,
   submitting,
@@ -11,16 +22,10 @@ export default function WorkspaceLayout({
   children,
 }: WorkspaceLayoutProps) {
   const { pathname } = useLocation();
-  const title =
-    pathname === '/overview'
-      ? 'Overview'
-      : pathname === '/reporting'
-        ? 'Reporting structure'
-        : pathname.startsWith('/directory')
-          ? 'Employee directory'
-          : pathname === '/departments'
-            ? 'Departments'
-            : 'My profile';
+  const title = pathname.startsWith('/directory')
+    ? 'Employee directory'
+    : (pageTitles[pathname] ?? 'My profile');
+
   return (
     <div className="workspace-shell">
       <a className="skip-link" href="#main-content">

@@ -120,12 +120,15 @@
 
   .sidebar nav {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     margin-top: 12px;
     gap: 6px;
   }
 
   .nav-item {
     padding: 9px 12px;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 }

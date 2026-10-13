@@ -1,0 +1,33 @@
+.approval-actions {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin: 20px 0;
+}
+
+.approval-actions .primary-button {
+  margin-top: 0;
+  width: auto;
+}
+
+.approval-actions form {
+  flex: 1;
+  max-width: 500px;
+}
+
+.approval-actions label {
+  margin-top: 0;
+}
+
+.approval-routing {
+  color: #63716a;
+}
+
+@media (max-width: 700px) {
+  .approval-actions {
+    flex-direction: column;
+  }
+  .approval-actions form {
+    width: 100%;
+  }
+}

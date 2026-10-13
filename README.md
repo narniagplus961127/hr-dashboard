@@ -8,7 +8,7 @@ React Router manages `/login`, `/profile`, `/overview`, `/directory`, `/director
 
 Job levels use the owner-confirmed order **Director → Head → Manager → Lead → Senior → Junior**. HR chooses a level explicitly for new records. Directory ordering follows level, then name, while the reporting view follows actual Manager assignments. Job titles and levels are independent employment fields; levels never grant workspace permissions. Existing Lead/Senior fictional test records are backfilled to match their titles, and new test fixtures select matching levels explicitly.
 
-Ticket 01 is deployed at [HR Dashboard](https://hr-dashboard-demo.pages.dev). All four accounts listed below can sign in; the owner-approved local `.env.demo.local` contains their shared hosted demo password and remains gitignored. The temporary setup-key file was deleted after provisioning.
+The full app is deployed at [HR Dashboard](https://hr-dashboard-demo.pages.dev). See [production deployment](docs/production-deployment.md) for the hosted migration and verification record. All four accounts listed below can sign in; the owner-approved local `.env.demo.local` contains their shared hosted demo password and remains gitignored. The temporary setup-key file was deleted after provisioning.
 
 ## Requirements
 
@@ -106,7 +106,7 @@ These demo values are deliberately public and included in the frontend build. On
 
 Build with the hosted project's public settings and publish **only `dist`** to a Free Cloudflare Pages project. The deployment contains no admin scripts, environment files, test settings, or privileged keys. Use the supplied `pages.dev` address without buying a custom domain.
 
-The owner can connect GitHub for automatic deployments, with build command `npm run build`, output directory `dist`, and the two public `VITE_` settings configured in Pages. Direct Upload is also supported for a prebuilt `dist` folder; it is a different Pages project mode and cannot later be switched to Git integration in place. See [Git integration](https://developers.cloudflare.com/pages/get-started/git-integration/) and [Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/).
+The owner can connect GitHub for automatic deployments, with build command `npm run build`, output directory `dist`, and the four public backend/demo `VITE_` settings configured in Pages. Direct Upload is also supported for a prebuilt `dist` folder; it is a different Pages project mode and cannot later be switched to Git integration in place. See [Git integration](https://developers.cloudflare.com/pages/get-started/git-integration/) and [Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/).
 
 ## Budget and restoration
 
@@ -122,6 +122,6 @@ Directory-visible fields live in `employee_records`, with maintained Departments
 
 React pages and components keep their CSS alongside them. Shared base styles live in `src/styles`, and interfaces/types live in `src/types`. Preserve readable blank lines between logical sections.
 
-The full specification is implemented locally on `codex/hr-dashboard-spec`. The hosted deployment remains Ticket 01 until the owner deploys all new migrations and the matching frontend build together. This implementation does not push Git commits or update hosted services. Earlier baseline evidence is retained in [Ticket 02 verification](docs/ticket-02-verification.md); full integration evidence is recorded in the specification verification documents.
+The full specification is merged into main and deployed to the existing Supabase and Cloudflare projects. All 15 hosted migrations match the repository. Cloudflare uses Direct Upload, so GitHub pushes do not automatically deploy; see [production deployment](docs/production-deployment.md) for future update steps. Earlier baseline evidence is retained in [Ticket 02 verification](docs/ticket-02-verification.md); full integration evidence is recorded in the specification verification documents.
 
 The [specification](https://github.com/narniagplus961127/hr-dashboard/issues/1) and [ticket 01](https://github.com/narniagplus961127/hr-dashboard/issues/2) define scope and acceptance criteria.

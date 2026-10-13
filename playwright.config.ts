@@ -47,6 +47,8 @@ export default defineConfig({
     reuseExistingServer: false,
     env: {
       VITE_SUPABASE_URL: process.env.TEST_SUPABASE_URL ?? '',
+      VITE_DEMO_BACKEND_URL: process.env.TEST_SUPABASE_URL ?? '',
+      VITE_DEMO_PASSWORD: process.env.TEST_DEMO_PASSWORD ?? '',
       VITE_SUPABASE_PUBLISHABLE_KEY:
         process.env.TEST_SUPABASE_PUBLISHABLE_KEY ?? '',
     },

@@ -92,7 +92,15 @@ HR-created records do not create login accounts. Their login identity stays unli
 | Aisha Rahman | aisha@hr.example.test  | HR Administrator |
 | Grace Lim    | grace@hr.example.test  | HR Administrator |
 
-Treat these as demonstration accounts, not real employment records. Keep hosted credentials private; do not embed a demo password in the published website. If a local demo-password file is retained for the owner, it must remain gitignored.
+Treat these as demonstration accounts, not real employment records. The owner has enabled public demo logins for this fictional learning app. The login page can display all four demo emails and their shared password. If a local demo-password file is retained for the owner, it must remain gitignored.
+
+## Visitor demo access
+
+The login page shows **View demo accounts** when `VITE_DEMO_PASSWORD` is configured and `VITE_DEMO_BACKEND_URL` matches `VITE_SUPABASE_URL`. The popup lists two HR Administrators, one Manager, and one Employee, with a shared password. It supports keyboard focus, Escape, and a Close button.
+
+Use gitignored `.env.development.local` for the local backend's password and `.env.production.local` for the hosted backend's password. The development file is not loaded in production mode. For Cloudflare builds, configure `VITE_DEMO_BACKEND_URL` and `VITE_DEMO_PASSWORD` alongside the existing public backend settings. A build must use the hosted URL and publishable key to connect to the hosted demo. A mismatched demo backend hides the popup.
+
+These demo values are deliberately public and included in the frontend build. Only use the fictional demo accounts; privileged Supabase keys remain excluded. Automated tests supply their own disposable password to the popup and never use local or hosted demo credentials.
 
 ## Cloudflare Pages
 

@@ -142,7 +142,11 @@ export default function LeaveBalancesPage({
             </button>
           </p>
         )}
-        {notice && <p role="status">{notice}</p>}
+        {notice && (
+          <p className="success-message" role="status">
+            {notice}
+          </p>
+        )}
         {loading ? (
           <p>Loading leave balances…</p>
         ) : (

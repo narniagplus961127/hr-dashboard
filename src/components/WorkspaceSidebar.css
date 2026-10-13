@@ -1,4 +1,8 @@
 .sidebar {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  align-self: flex-start;
   width: 244px;
   flex-shrink: 0;
   background: #fff;
@@ -6,6 +10,19 @@
   padding: 30px 24px 20px;
   display: flex;
   flex-direction: column;
+}
+
+.sidebar > .brand,
+.sidebar > .company-label,
+.sidebar-footer {
+  flex-shrink: 0;
+}
+
+.sidebar nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .company-label {
@@ -75,10 +92,11 @@
 .sidebar-footer {
   border-top: 1px solid #e7ede9;
   padding-top: 20px;
+  background: white;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: auto;
+  margin-top: 16px;
   font-size: 11px;
   font-weight: 500;
 }
@@ -96,6 +114,8 @@
 
 @media (max-width: 700px) {
   .sidebar {
+    position: static;
+    height: auto;
     width: 100%;
     padding: 16px 20px 10px;
     border-right: none;
@@ -119,6 +139,7 @@
   }
 
   .sidebar nav {
+    flex: none;
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;

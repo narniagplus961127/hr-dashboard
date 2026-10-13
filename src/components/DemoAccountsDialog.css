@@ -1,0 +1,91 @@
+.demo-accounts {
+  margin-top: 20px;
+}
+
+.demo-accounts > button {
+  width: 100%;
+}
+
+.demo-dialog {
+  width: min(520px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 28px;
+  border: 1px solid #dce7df;
+  border-radius: 16px;
+  color: #243d3b;
+  background: white;
+  box-shadow: 0 24px 80px #163d3a33;
+  overflow-y: auto;
+}
+
+.demo-dialog::backdrop {
+  background: #163d3a80;
+}
+
+.demo-dialog h2 {
+  font-size: 23px;
+}
+
+.demo-dialog p {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #63716a;
+}
+
+.demo-account-list {
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+}
+
+.demo-account-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #e7ede9;
+}
+
+.demo-account-list li > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.demo-account-list span {
+  color: var(--muted);
+}
+
+.demo-dialog code {
+  display: block;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.demo-password {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #eaf5f0;
+  margin-bottom: 20px;
+}
+
+.demo-password span {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.demo-dialog form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 700px) {
+  .demo-dialog {
+    padding: 20px;
+  }
+}

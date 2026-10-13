@@ -43,19 +43,6 @@
   color: #c1cdc5;
 }
 
-.secondary-button {
-  background: white;
-  border: 1px solid #dce7df;
-  padding: 9px 16px;
-  border-radius: 8px;
-  font-size: 11px;
-  color: #61746b;
-}
-
-.secondary-button:hover {
-  background: #f5f9f6;
-}
-
 @media (max-width: 1000px) {
   .topbar {
     padding: 0 24px;

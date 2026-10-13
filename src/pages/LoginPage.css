@@ -169,26 +169,12 @@ form input::placeholder {
   color: #a1ada7;
 }
 
-.primary-button {
-  display: flex;
+.login-content > form .primary-button {
   justify-content: space-between;
-  align-items: center;
-  border: 0;
-  border-radius: 9px;
-  color: white;
-  background: var(--teal);
-  padding: 15px 18px;
-  font-size: 13px;
-  font-weight: 600;
   margin-top: 18px;
-  box-shadow: 0 4px 12px #0c756f18;
 }
 
-.primary-button:hover {
-  background: #095f5a;
-}
-
-.primary-button span {
+.login-content > form .primary-button span {
   font-size: 20px;
 }
 

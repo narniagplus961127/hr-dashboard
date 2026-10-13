@@ -6,3 +6,6 @@ supabase/.temp
 supabase/.branches
 package-lock.json
 *.png
+.test-runtime/
+.local/
+.husky/_/

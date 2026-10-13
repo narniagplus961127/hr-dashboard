@@ -1,14 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { assertTestContext } from '../scripts/lib/test-backend.mjs';
 
 // Trusted provisioning/cleanup only. Behavioral assertions use public APIs.
 export function provisionFixture(sql: string) {
-  const project = readFileSync('supabase/config.toml', 'utf8').match(
-    /^project_id = "([^"]+)"/m,
-  )?.[1];
-  if (!project || !/^hr-dashboard(?:-[a-z]+)*-test$/.test(project))
-    throw new Error('Fixture requires an isolated HR test project.');
+  const { projectId: project } = assertTestContext();
   const result = spawnSync(
     'docker',
     [
@@ -27,6 +23,7 @@ export function provisionFixture(sql: string) {
 }
 
 export function publicClient(token?: string) {
+  assertTestContext();
   const url = process.env.TEST_SUPABASE_URL;
   const key = process.env.TEST_SUPABASE_PUBLISHABLE_KEY;
 

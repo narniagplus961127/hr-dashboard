@@ -2,7 +2,7 @@
   padding: 28px;
   border: 1px solid #e1e9e3;
   border-radius: 14px;
-  background: white;
+  background-color: white;
 }
 
 .employee-form-panel h2 {
@@ -38,10 +38,14 @@
   padding: 12px 14px;
   border: 1px solid #dce5df;
   border-radius: 9px;
-  background: white;
+  background-color: white;
   color: #243d3b;
   font: inherit;
   font-size: 13px;
+}
+
+.employee-form select {
+  padding-right: 42px;
 }
 
 .employee-form small,

@@ -1,10 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
-import { loadEnvFile } from 'node:process';
-import { existsSync } from 'node:fs';
+import { assertTestContext, testPorts } from './scripts/lib/test-backend.mjs';
 
-if (existsSync('.env.test.local')) loadEnvFile('.env.test.local');
+assertTestContext();
+const browser = process.env.HR_TEST_BROWSER ?? 'chrome';
+if (!['chrome', 'chromium'].includes(browser))
+  throw new Error('HR_TEST_BROWSER must be chrome or chromium.');
 
-const frontendPort = Number(process.env.HR_TEST_FRONTEND_PORT ?? 5174);
+const frontendPort = Number(
+  process.env.HR_TEST_FRONTEND_PORT ?? testPorts.frontend,
+);
 if (
   !Number.isInteger(frontendPort) ||
   frontendPort < 1024 ||
@@ -23,14 +27,17 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: browser === 'chrome' ? 'chrome' : undefined,
+      },
     },
     {
       name: 'mobile',
       use: {
         ...devices['Pixel 7'],
         defaultBrowserType: 'chromium',
-        channel: 'chrome',
+        channel: browser === 'chrome' ? 'chrome' : undefined,
       },
     },
   ],

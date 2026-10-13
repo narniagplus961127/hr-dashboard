@@ -112,18 +112,20 @@ export default function LeaveBalancesPage({
       </header>
 
       <section className="leave-balance-panel">
-        <label htmlFor="leave-year">Year</label>
-        <input
-          id="leave-year"
-          type="number"
-          min="2000"
-          max="2100"
-          value={year}
-          onChange={(event) => {
-            setYear(event.target.value);
-            setNotice('');
-          }}
-        />
+        <div className="leave-year-field">
+          <label htmlFor="leave-year">Year</label>
+          <input
+            id="leave-year"
+            type="number"
+            min="2000"
+            max="2100"
+            value={year}
+            onChange={(event) => {
+              setYear(event.target.value);
+              setNotice('');
+            }}
+          />
+        </div>
         <p className="leave-policy">
           Demo defaults: 14 Annual days and 14 Sick days each year. No accrual,
           prorating, or carry-over.

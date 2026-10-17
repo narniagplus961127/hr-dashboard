@@ -16,13 +16,13 @@ HR can see active headcount and company-wide leave totals, with their own reques
 
 ### Shared calendar
 
-Employees can see company holidays and approved absences marked **Away**, without private leave reasons or types.
+Employees can see company holidays and approved absences marked **Away**, without private leave reasons or types. This example shows January 2027.
 
 [![Shared monthly calendar showing a fictional company holiday and Maya Tan's approved absences](docs/screenshots/shared-calendar.png)](docs/screenshots/shared-calendar.png)
 
 ### Leave approvals and history
 
-Managers and HR review eligible requests. The retained history shows who submitted, approved, or cancelled a request.
+Managers and HR review eligible requests. The retained history shows who submitted, approved, or cancelled a request. This example follows a request for 6 January 2027.
 
 [![Leave approval page showing a cancelled request with its submitted, approved, and cancelled audit history](docs/screenshots/leave-history.png)](docs/screenshots/leave-history.png)
 

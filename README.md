@@ -4,6 +4,39 @@ A single-company HR learning app with fictional employees. The full local specif
 
 React, TypeScript, and Vite provide the frontend. Supabase provides authentication and PostgreSQL. Cloudflare Pages hosts the static build.
 
+## Screenshots
+
+[Try the live demo](https://hr-dashboard-demo.pages.dev) and select **View demo accounts** on the login page to explore each role. Screenshots show fictional demo/test data; dates and totals may differ from the live site. Click an image to view it at full size.
+
+### Company overview
+
+HR can see active headcount and company-wide leave totals, with their own requests shown separately.
+
+[![HR overview showing active headcount and personal and company leave request summaries](docs/screenshots/overview.png)](docs/screenshots/overview.png)
+
+### Shared calendar
+
+Employees can see company holidays and approved absences marked **Away**, without private leave reasons or types.
+
+[![Shared monthly calendar showing a fictional company holiday and Maya Tan's approved absences](docs/screenshots/shared-calendar.png)](docs/screenshots/shared-calendar.png)
+
+### Leave approvals and history
+
+Managers and HR review eligible requests. The retained history shows who submitted, approved, or cancelled a request.
+
+[![Leave approval page showing a cancelled request with its submitted, approved, and cancelled audit history](docs/screenshots/leave-history.png)](docs/screenshots/leave-history.png)
+
+<details>
+<summary>View the mobile layout</summary>
+
+The overview stacks its summaries vertically, with a horizontally scrollable workspace menu.
+
+<a href="docs/screenshots/overview-mobile.png"><img src="docs/screenshots/overview-mobile.png" alt="Mobile HR overview with compact navigation and stacked headcount and leave summary cards" width="320" /></a>
+
+</details>
+
+## Application structure
+
 React Router manages `/login`, `/profile`, `/overview`, `/directory`, `/directory/:employeeId`, `/departments`, `/reporting`, `/calendar`, `/holidays`, `/my-leave`, `/approvals`, and `/entitlements`, including direct links and browser history. All workspace routes require an active session. Department, holiday, and entitlement management require HR; approvals require Manager or HR access. Workspace access information appears on My profile. Cloudflare Pages serves the SPA entry point for these paths when the build has no top-level `404.html`; retain that default when deploying. See [Pages SPA routing](https://developers.cloudflare.com/pages/configuration/serving-pages/#single-page-application-spa-rendering).
 
 Job levels use the owner-confirmed order **Director → Head → Manager → Lead → Senior → Junior**. HR chooses a level explicitly for new records. Directory ordering follows level, then name, while the reporting view follows actual Manager assignments. Job titles and levels are independent employment fields; levels never grant workspace permissions. Existing Lead/Senior fictional test records are backfilled to match their titles, and new test fixtures select matching levels explicitly.

@@ -1,0 +1,42 @@
+name: Supabase keep-alive
+
+on:
+  schedule:
+    # UTC: 08:00 and 20:00 in Asia/Kuala_Lumpur.
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/supabase-keep-alive.yml]
+
+permissions: {}
+
+concurrency:
+  group: supabase-keep-alive
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.repository == 'narniagplus961127/hr-dashboard'
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    env:
+      SUPABASE_URL: https://reozvfhbgupxnwokjgtn.supabase.co
+      # Public application key, already shipped in the frontend; no admin credentials.
+      SUPABASE_PUBLISHABLE_KEY: sb_publishable_sqn1xrJTITajzfyn63G1Cg_rl00AHLS
+    steps:
+      - name: Verify a constant read-only database query
+        shell: bash
+        run: |
+          set -euo pipefail
+          response_file="$RUNNER_TEMP/supabase-keep-alive-response"
+          curl --silent --show-error --fail \
+            --connect-timeout 10 --max-time 20 \
+            --header "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+            --output "$response_file" \
+            "$SUPABASE_URL/rest/v1/rpc/keep_alive"
+          if [[ "$(cat "$response_file")" != "1" ]]; then
+            echo 'Unexpected database health-check result.' >&2
+            exit 1
+          fi
+          echo 'Database health check passed (SELECT 1; no tables accessed).'

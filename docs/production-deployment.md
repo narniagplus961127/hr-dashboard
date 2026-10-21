@@ -51,10 +51,16 @@ The remaining warning is leaked-password protection, which Supabase makes availa
 
 ## Future updates
 
-1. Update main and run `npm run check` and `npm test` locally; there is no GitHub Actions workflow.
+1. Update main and run `npm run check` and `npm test` locally; GitHub Actions only runs the Supabase keep-alive, not application tests.
 2. Preview pending hosted migrations with `npm run supabase -- db push --linked --dry-run`, then apply any reviewed new migrations with `npm run supabase -- db push --linked`.
 3. Confirm the four hosted `VITE_` settings in `.env.production.local` and run `npm run build`.
 4. Upload only the contents of dist through Cloudflare's Create deployment → Production flow.
 5. Verify the live demo popup, login, refresh, and affected workflows. Do not reset hosted data or upload environment files.
 
 If Supabase's Free project pauses from inactivity, restore it in the dashboard before retrying the live app. The frontend remains hosted independently. Use the existing free subdomain and do not upgrade if a free quota is reached.
+
+## Inactivity checks
+
+On 21 October 2026, migration `20261021073004_keep_alive.sql` added a constant `SELECT 1` health function. All 16 hosted migrations match the repository. The external GitHub Actions schedule runs at 08:00 and 20:00 Asia/Kuala_Lumpur. The initial [workflow run](https://github.com/narniagplus961127/hr-dashboard/actions/runs/39562557435) passed, and the live HTTP endpoint returned `200` with `1`. An anonymous, read-only `EXPLAIN ANALYZE` measured 0.143 ms execution with no table access. Security advisor findings remain the existing notices described above. No frontend deployment is needed.
+
+See [Supabase keep-alive](supabase-keep-alive.md) for operation, failure checks, and the 60-day GitHub repository inactivity limit. This does not guarantee that Supabase Free will never pause.

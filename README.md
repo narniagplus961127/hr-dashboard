@@ -77,7 +77,7 @@ Run selected workflows with `npm test -- tests/entitlements.spec.ts`, or use `np
 
 Tests use installed Google Chrome locally. To use Playwright's bundled Chromium instead, install it and set `HR_TEST_BROWSER=chromium`. Desktop and mobile workflows cover employee requests, Manager approval, balance/calendar updates, HR cancellation, directory, Departments, holidays, entitlements, reporting, deactivation, and overview. Direct API checks verify permissions and competing state transitions against the disposable real database.
 
-Commits format staged files with Prettier and run type checking plus fast test-runner safety checks. The owner removed the GitHub Actions workflow for this demo repository. Before merging or deploying, run `npm run check` and `npm test` locally; GitHub does not automatically run them.
+Commits format staged files with Prettier and run type checking plus fast test-runner safety checks. GitHub Actions only runs the [twice-daily Supabase keep-alive](docs/supabase-keep-alive.md). Before merging or deploying, run `npm run check` and `npm test` locally; GitHub does not automatically run them.
 
 To apply local migrations or stop the development containers while retaining data:
 
@@ -145,6 +145,8 @@ The owner can connect GitHub for automatic deployments, with build command `npm 
 
 Hosting must remain RM0 without a card. Free limits checked during planning include 500 Cloudflare Pages builds/month, a 500 MB Supabase database, and 50,000 monthly active users. Supabase may pause a Free project after one week of inactivity; restore it from the project dashboard before retrying login. If a quota is reached, reduce usage or wait for reset instead of upgrading. If terms cease to meet the no-card/zero-budget rule, migrate or operate locally.
 
+A [twice-daily read-only database check](docs/supabase-keep-alive.md) helps reduce inactivity pausing with negligible database load. It is best effort; GitHub disables public-repository schedules after 60 days without repository activity.
+
 Check current terms when deploying: [Cloudflare Pages limits](https://developers.cloudflare.com/pages/platform/limits/), [Supabase pricing](https://supabase.com/pricing), and [Supabase billing FAQ](https://supabase.com/docs/guides/platform/billing-faq). Automatic backups are not included in Supabase Free; retain migrations and demo setup scripts so fictional data can be recreated.
 
 ## Formatting and access
@@ -155,6 +157,6 @@ Directory-visible fields live in `employee_records`, with maintained Departments
 
 React pages and components keep their CSS alongside them. Shared base styles live in `src/styles`, and interfaces/types live in `src/types`. Preserve readable blank lines between logical sections.
 
-The full specification is merged into main and deployed to the existing Supabase and Cloudflare projects. All 15 hosted migrations match the repository. Cloudflare uses Direct Upload, so GitHub pushes do not automatically deploy; see [production deployment](docs/production-deployment.md) for future update steps. Earlier baseline evidence is retained in [Ticket 02 verification](docs/ticket-02-verification.md); full integration evidence is recorded in the specification verification documents.
+The full specification is merged into main and deployed to the existing Supabase and Cloudflare projects. All 16 hosted migrations match the repository. Cloudflare uses Direct Upload, so GitHub pushes do not automatically deploy; see [production deployment](docs/production-deployment.md) for future update steps. Earlier baseline evidence is retained in [Ticket 02 verification](docs/ticket-02-verification.md); full integration evidence is recorded in the specification verification documents.
 
 The [specification](https://github.com/narniagplus961127/hr-dashboard/issues/1) and [ticket 01](https://github.com/narniagplus961127/hr-dashboard/issues/2) define scope and acceptance criteria.
